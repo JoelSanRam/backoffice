@@ -1,0 +1,309 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-11 col-lg-11 offset-lg-1 col-xxl-9 offset-xxl-2 offset-md-1">
+            <div class="">
+                <div class="row bg-white shadow-sm rounded-3 mb-3 pt-1 pb-3">
+                    <div class="col-12 my-3 text-primary">
+                        <h3><i class="fas fa-plane"></i> {{ 'Vuelos' | translate }}</h3>
+                    </div>
+                    <div class="col-md-12 d-flex ">
+                        <div class="form-check me-2">
+                            <input class="form-check-input" (change)="onChanceRadio('roundtrip')" value="roundtrip"
+                                type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Vuelo redondo
+                            </label>
+                        </div>
+                        <div class="form-check mx-2">
+                            <input class="form-check-input" (change)="onChanceRadio('single')" value="single"
+                                type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Vuelo sencillo
+                            </label>
+                        </div>
+                        <div class="form-check mx-2">
+                            <input class="form-check-input" (change)="onChanceRadio('multitrip')" value="multitrip"
+                                type="radio" name="flexRadioDefault" id="flexRadioDefault3">
+                            <label class="form-check-label" for="flexRadioDefault3">
+                                Multidestinos
+                            </label>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div *ngIf="radioTipoVuelo == 'roundtrip'" class="col-9 col-md-8 col-sm-12">
+                            <div class="row">
+                                <div class=" col-sm-4 mb-2">
+                                    <label for="origen">Origen</label>
+                                    <input [(ngModel)]="arrayDestinos[0].origenLabel"
+                                        (ngModelChange)="autocompleteAirport($event)" [typeahead]="destinos"
+                                        [typeaheadMinLength]="2" [typeaheadScrollable]="true"
+                                        [typeaheadOptionsInScrollableView]="6" [typeaheadAsync]="true"
+                                        [typeaheadItemTemplate]="customItemTemplateOrigen"
+                                        (typeaheadOnSelect)="onSelectAirport($event, 'origen', 0)" type="text"
+                                        class="form-control" placeholder="Ingrese origen" id="origen" name="origen" />
+                                    <ng-template #customItemTemplateOrigen let-model="item" let-index="index">
+                                        <p class="m-0">
+                                            <i class="fas fa-plane-departure" aria-hidden="true"></i>
+                                            {{ model.ciudad + ', ' + model.pais + ' (' + model.codigo + ')' }}
+                                        </p>
+                                        <small>{{ model.aeropuerto }}</small>
+                                    </ng-template>
+                                </div>
+
+                                <div class="col-4 col-md-4 col-sm-4 mb-2">
+                                    <label for="destino">Destino</label>
+                                    <input [(ngModel)]="arrayDestinos[0].destinoLabel"
+                                        (ngModelChange)="autocompleteAirport($event)" [typeahead]="destinos"
+                                        [typeaheadMinLength]="2" [typeaheadScrollable]="true"
+                                        [typeaheadOptionsInScrollableView]="6" [typeaheadAsync]="true"
+                                        [typeaheadItemTemplate]="customItemTemplateDestino"
+                                        (typeaheadOnSelect)="onSelectAirport($event, 'destino', 0)" type="text"
+                                        class="form-control" placeholder="Ingrese destino" id="destino"
+                                        name="destino" />
+                                    <ng-template #customItemTemplateDestino let-model="item" let-index="index">
+                                        <p class="m-0">
+                                            <i class="fas fa-plane-arrival" aria-hidden="true"></i>
+                                            {{ model.ciudad + ', ' + model.pais + ' (' + model.codigo + ')' }}
+                                        </p>
+                                        <small>{{ model.aeropuerto }}</small>
+                                    </ng-template>
+                                </div>
+
+                                <div class="col-3 col-md-4 col-sm-4 mb-2">
+                                    <label for=""> Fechas </label>
+                                    <div class="d-flex">
+                                        <input type="text" class="form-control " 
+                                            *ngIf="radioTipoVuelo == 'roundtrip'" #daterangepicker="bsDaterangepicker"
+                                            bsDaterangepicker [(ngModel)]="bsRangeValue" [maxDate]="maxDate2"
+                                            [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false, containerClass: 'theme-default' }"
+                                            [minDate]="minDate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="radioTipoVuelo == 'single' || radioTipoVuelo == 'multitrip'"
+                            class="col-9 col-md-8 col-sm-12">
+                            <div class="row" *ngFor="let i of (totalDestinos | range)">
+                                <div class="col-4 col-md-4 col-sm-4 mb-2">
+                                    <label [for]="'origen_'+i">Origen</label>
+                                    <input [(ngModel)]="arrayDestinos[i].origenLabel"
+                                        (ngModelChange)="autocompleteAirport($event)" [typeahead]="destinos"
+                                        [typeaheadMinLength]="2" [typeaheadScrollable]="true"
+                                        [typeaheadOptionsInScrollableView]="6" [typeaheadAsync]="true"
+                                        [typeaheadItemTemplate]="customItemTemplateOrigen"
+                                        (typeaheadOnSelect)="onSelectAirport($event, 'origen', i)" type="text"
+                                        class="form-control" placeholder="Ingrese origen" [id]="'origen_'+i"
+                                        [name]="'origen_'+i" />
+                                    <ng-template #customItemTemplateOrigen let-model="item" let-index="index">
+                                        <p class="m-0">
+                                            <i class="fas fa-plane-departure" aria-hidden="true"></i>
+                                            {{ model.ciudad + ', ' + model.pais + ' (' + model.codigo + ')' }}
+                                        </p>
+                                        <small>{{ model.aeropuerto }}</small>
+                                    </ng-template>
+                                </div>
+
+                                <div class="col-4 col-md-4 col-sm-4 mb-2">
+                                    <label for="'destino'+i">Destino</label>
+                                    <input [(ngModel)]="arrayDestinos[i].destinoLabel"
+                                        (ngModelChange)="autocompleteAirport($event)" [typeahead]="destinos"
+                                        [typeaheadMinLength]="2" [typeaheadScrollable]="true"
+                                        [typeaheadOptionsInScrollableView]="6" [typeaheadAsync]="true"
+                                        [typeaheadItemTemplate]="customItemTemplateDestino"
+                                        (typeaheadOnSelect)="onSelectAirport($event, 'destino', i)" type="text"
+                                        class="form-control" placeholder="Ingrese destino" id="destino"
+                                        [name]="'destino'+i" />
+                                    <ng-template #customItemTemplateDestino let-model="item" let-index="index">
+                                        <p class="m-0">
+                                            <i class="fas fa-plane-arrival" aria-hidden="true"></i>
+                                            {{ model.ciudad + ', ' + model.pais + ' (' + model.codigo + ')' }}
+                                        </p>
+                                        <small>{{ model.aeropuerto }}</small>
+                                    </ng-template>
+                                </div>
+
+                                <div class=" mb-2" [ngClass]="{'col-4 col-md-4 col-sm-4' : radioTipoVuelo == 'single', 'col-3 col-md-3 col-sm-3' : radioTipoVuelo == 'multitrip'}">
+                                    <label for=""> Fechas </label>
+                                    <div class="d-flex">
+                                        <input type="text" placeholder="Datepicker" class="form-control form-control-sm"
+                                            bsDatepicker [minDate]="minDate" [(ngModel)]="fechas[i].fecha" [maxDate]="maxDate2"
+                                            [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false, containerClass: 'theme-default' }">
+                                    </div>
+                                </div>
+                                <div class="col-1 col-md-1 col-sm-1 mb-2 mt-4">
+                                    <button *ngIf="totalDestinos > 2" class="btn border-0"
+                                        (click)="addRmDestino('rm',i)"><i
+                                            class="far fa-trash-alt fs-4 text-primary"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class=" col-md-4 col-sm-12 d-flex">
+                            <div class="me-4 mb-2" style="width: 60%;">
+                                <label class="w-100" for=""> Pasajeros </label>
+                                <div class="dropdown">
+                                    <button class="btn border form-select" type="button" data-bs-auto-close="false"
+                                        id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+
+
+                                        <div class="d-flex justify-content-around">
+                                            <div class="px-2"><i class="far fa-user"></i> {{personas.adultos}}</div>
+                                            <div class="px-2"><i class="fas fa-child"></i> {{personas.menores}}</div>
+                                            <div class="px-2"><i class="fas fa-baby"></i> {{personas.infantes}}</div>
+                                        </div>
+                                    </button>
+
+                                    <div class="dropdown-menu p-0 text-muted" aria-labelledby="dropdownMenuButton1"
+                                        style="width: 18rem; z-index: 10;">
+                                        <div class="card-header bg-primary text-white">
+                                            Pasajeros
+                                        </div>
+
+                                        <div class="px-2">
+
+                                            <div class="d-flex justify-content-between py-2">
+                                                <div class=" me-2">
+                                                    <span>Adultos</span>
+                                                </div>
+                                                <div>
+                                                    <a (click)="addRemovePerson('adultos','rm')"
+                                                        [ngClass]="personas.adultos == 1 ? 'disabled' : ''"
+                                                        class="text-warning mx-2"><i
+                                                            class="fas fa-minus-circle"></i></a>
+                                                    <span>{{personas.adultos}}</span>
+                                                    <a (click)="addRemovePerson('adultos','add')"
+                                                        [ngClass]="personas.adultos == 9 ? 'disabled' : ''"
+                                                        class="text-warning mx-2"><i class="fas fa-plus-circle"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-between py-2">
+                                                <div>
+                                                    <span>Menores</span>
+                                                </div>
+                                                <div>
+                                                    <a (click)="addRemovePerson('menores','rm')"
+                                                        [ngClass]="personas.total == 1 ? 'disabled' : ''"
+                                                        class="text-warning mx-2"><i
+                                                            class="fas fa-minus-circle"></i></a>
+                                                    <span>{{personas.menores}}</span>
+                                                    <a (click)="addRemovePerson('menores','add')"
+                                                        [ngClass]="personas.total == 9 ? 'disabled' : ''"
+                                                        class="text-warning mx-2"><i class="fas fa-plus-circle"></i></a>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="personas.menores > 0" class="py-2">
+                                                <div class="my-2">
+                                                    <span class="me-2">Edad del menor</span>
+                                                    <div class="row mx-1">
+                                                        <select
+                                                            *ngFor="let menorEdad of personas.edadmenores; let e = index;"
+                                                            (change)="parseandoElDato('menores', personas.edadmenores[e], e)"
+                                                            [(ngModel)]="personas.edadmenores[e]"
+                                                            class="form-select m-1 selectMenores">
+                                                            <option *ngFor="let ed of edadMenores" [value]="ed">{{ed}}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-between py-2">
+                                                <div>
+                                                    <span>Infantes</span>
+                                                </div>
+                                                <div>
+                                                    <a (click)="addRemovePerson('infantes','rm')"
+                                                        [ngClass]="personas.total == 1 ? 'disabled' : ''"
+                                                        class="text-warning mx-2"><i
+                                                            class="fas fa-minus-circle"></i></a>
+                                                    <span>{{personas.infantes}}</span>
+                                                    <a (click)="addRemovePerson('infantes','add')"
+                                                        [ngClass]="personas.total == 9 ? 'disabled' : ''"
+                                                        class="text-warning mx-2"><i class="fas fa-plus-circle"></i></a>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="personas.infantes > 0" class="py-2">
+                                                <div class=" my-2">
+                                                    <span class="me-2">Edad del infante</span>
+                                                    <div class="row mx-1">
+                                                        <select
+                                                            *ngFor="let infanteEdad of personas.edadinfantes; let i = index;"
+                                                            (change)="parseandoElDato('infantes', personas.edadinfantes[i], i)"
+                                                            [(ngModel)]="personas.edadinfantes[i]"
+                                                            class="form-select m-1 selectMenores">
+                                                            <option *ngFor="let ed of edadInfantes" [value]="ed">{{ed}}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class=" mb-2 mt-4 ">
+                                <button class="btn btn-sm btn-primary text-white rounded-pill " (click)="search()">
+                                    <i class="bi bi-search"></i> Buscar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="" *ngIf="radioTipoVuelo == 'multitrip'">
+                        <button *ngIf="totalDestinos < 6" (click)="addRmDestino('add', null)"
+                            class="btn btn-outline-primary">Añadir
+                            tramo</button>
+                    </div>
+
+
+
+                </div>
+                <app-banner></app-banner>
+                <div class="row p-0 mb-3 w-100">
+                    <h3 class="text-primary">Flyers</h3>
+                </div>
+                <div class="row rounded-3 mb-5 py-2">
+                    <app-flyers [flyers]="flyers"></app-flyers>
+                </div>
+                <div>
+
+                    <owl-carousel-o [options]="customOptionsAereolineas">
+                        <ng-template carouselSlide><img class="img-fluid" src="../../../assets/img/anuncio3.png" alt="">
+                        </ng-template>
+                        <ng-template carouselSlide><img class="img-fluid" src="../../../assets/img/anuncio3.png" alt="">
+                        </ng-template>
+                        <ng-template carouselSlide><img class="img-fluid" src="../../../assets/img/anuncio3.png" alt="">
+                        </ng-template>
+                        <ng-template carouselSlide><img class="img-fluid" src="../../../assets/img/anuncio3.png" alt="">
+                        </ng-template>
+                        <ng-template carouselSlide><img class="img-fluid" src="../../../assets/img/anuncio3.png" alt="">
+                        </ng-template>
+                        <ng-template carouselSlide><img class="img-fluid" src="../../../assets/img/anuncio3.png" alt="">
+                        </ng-template>
+                    </owl-carousel-o>
+
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-12  p-0 text-center">
+                        <img class="img-fluid rounded-3 w-100" src="../../../assets/img/Grupo 5.svg" alt="">
+                    </div>
+                </div>
+                <div class="row p-0 mb-3 w-100">
+                    <h3 class="text-primary">Blog</h3>
+                </div>
+                <div class="row mb-5 p-0">
+                    <app-carousel [options]="customOptions" [imagenes]="imgArray"></app-carousel>
+                    <div class=" pb-3 text-center">
+                        <input type="submit" class="btn btn-outline-primary rounded-pill mt-3"
+                            value="Ver todas las publicaciones">
+                    </div>
+                </div>
+                <app-publicidad></app-publicidad>
+            </div>
+        </div>
+    </div>
+</div>

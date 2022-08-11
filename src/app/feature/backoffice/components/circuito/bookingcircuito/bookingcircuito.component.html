@@ -1,0 +1,160 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-11 col-lg-11 offset-lg-1 col-xxl-9 offset-xxl-2 offset-md-1">
+            <div class="row">
+                <div class="text-primary ms-0 ">
+                    <button (click)="backResults()" class="btn-outline-primary btn-sm border-0 p-0 mb-3"><i
+                            class="fas fa-angle-left"></i> Regresar</button>
+                    <h5 class="font-italic">Datos del titular</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="row bg-white shadow-sm rounded mb-3 py-2" *ngFor="let hab of consulta.habs; index as i">
+                        <div class="col-12 col-sm-6 col-md-3 mb-2 text-primary">
+                            <h5><b>Habitación {{i+1}}</b></h5>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6 mb-2 d-flex">
+                            <span class="me-2">Habitación DBL</span>
+                            <!-- <small>Adultos: 2 Menores: 0</small> -->
+
+                        </div>
+                        <div class="col-12 mb-2">
+                            <h6>Titular*</h6>
+                        </div>
+                        <div class="row pe-0" *ngFor="let pax of numSequence(hab.adultos); index as ad">
+                            <div class="col-12 col-sm-6 col-md-3 mb-2">
+                                <label for="">
+                                    Título
+                                </label>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Open this select menu</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 mb-2">
+                                <label for="">
+                                    Nombre(s) (adulto {{ad+1}}):
+                                </label>
+                                <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                                    aria-describedby="basic-addon1">
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 mb-2">
+                                <label for="">
+                                    Apellidos (adulto 1):
+                                </label>
+                                <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                                    aria-describedby="basic-addon1">
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 mb-2">
+                                <label for="">
+                                    Edad:
+                                </label>
+                                <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                                    aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                        <div class="row pe-0" *ngFor="let pax of numSequence(hab.menores); index as men">
+                            <div class="col-12 col-sm-6 col-md-3 mb-2">
+                                <label for="">
+                                    Título
+                                </label>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Open this select menu</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 mb-2">
+                                <label for="">
+                                    Nombre(s) (menor {{men+1}}):
+                                </label>
+                                <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                                    aria-describedby="basic-addon1">
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 mb-2">
+                                <label for="">
+                                    Apellidos (adulto 1):
+                                </label>
+                                <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                                    aria-describedby="basic-addon1">
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 mb-2">
+                                <label for="">
+                                    Edad:
+                                </label>
+                                <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                                    aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                        <div class="col-12  mb-2">
+                            <label for="">Peticiones especiales</label>
+                            <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                        </div>
+                        
+                    </div>
+                    <div class="row bg-white shadow-sm rounded mb-3 py-2">
+                        <small>Haremos llegar sus peticiones al hotel, sin embargo están sujetas a disponibilidad y
+                            podría haber cargos adicionales</small>
+                        <div class="col-12  mb-2">
+                            <input type="checkbox" class="me-2"> <label for="">Acepto los términos y condiciones</label>
+                        </div>
+                        <div class="col-12 mb-2 text-center">
+                            <input type="submit" value="Pagar" class="btn btn-outline-success rounded-pill px-5 mx-2">
+                            <input type="submit" value="Reservar"
+                                class="btn btn-outline-primary rounded-pill px-5 mx-2">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card w-100" style="width: 18rem">
+                        <div class="imgHotelDestacado"  [ngStyle]="{background: 'url('+circuitoBook.info.url_thumb+') no-repeat 0 0 / cover', 'background-position': 'center'}">>
+
+                        </div>
+
+                        <div class="card-body p-2">
+                            <h5 class="card-title text-primary">{{circuitoBook.info.nombre}}</h5>
+                            <small><i class="bi bi-geo-alt-fill"></i> {{circuitoBook.info.destinoLlegada.destino}} </small> <br>
+                            <small><i class="fas fa-arrow-alt-circle-right"></i> Saliendo de:
+                                {{circuitoBook.info.destinoSalida.destino}} </small> <br>
+                                <small><i class="fas fa-clock"></i> Duración: {{circuitoBook.info.duracion}} </small>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="">
+                                        <div class="pasajeros">
+                                            <span>Adultos: {{adultos}}</span>
+                                            <span>Menores: {{menores}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between text-center">
+                                <div class="col-md-12">
+                                    <small>Fecha de salida</small>
+                                    <p class="text-warning m-0">{{circuitoBook.info.fechaSalida}}</p>
+
+                                </div>
+                            </div>
+                            <hr>
+                            <div>
+                                <small class="text-primary">Políticas de cancelación</small> <br>
+                                <small [innerHTML]="circuitoBook.politicas.politicasCancelacion"></small><br>
+                                <small>Fecha límite de pago: <span
+                                        [innerText]="circuitoBook.politicas.fechalimite"></span></small>
+                            </div>
+                            <hr>
+                            <div class="text-end">
+                                <label for="">Total de estancia</label>
+                                <h5 class="text-info">{{circuitoBook.total.publico_currency | currency}} <small>MXN</small></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+<div id="body-pd" class="body-pd">
+  
+  <app-navbar ></app-navbar>
+
+  <app-sidebar></app-sidebar>
+
+  <div (click)="changeStatusDesktopClickOutside()" class="content">
+    <router-outlet></router-outlet>
+  </div>
+  <footer class="footerStyles">
+    <h5 class="footerText ">Powered by Softrek ©2022</h5>
+  </footer>
+</div>

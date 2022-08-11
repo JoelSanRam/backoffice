@@ -1,0 +1,207 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-11 col-lg-11 offset-lg-1 col-xxl-9 offset-xxl-2 offset-md-1">
+            <div class="row">
+                <div class="text-primary ms-0 ">
+                    <button routerLink="/grupos" class="btn-outline-primary btn-sm border-0 p-0 mb-3"><i class="fas fa-angle-left"></i>
+                        Regresar</button>
+                    <h5 class="font-italic">Cotizar</h5>
+                </div>
+            </div>
+            <div class="row bg-white shadow-sm rounded mb-3 py-2">
+                <form (ngSubmit)="cotizar()" [formGroup]="cotizarForm">
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label">Hotel</label>
+                                <div class="d-flex">
+                                    <select formControlName="hotelInicial" class="form-select me-1">
+                                        <optgroup *ngFor="let region of regiones" label={{region}}>
+                                            <ng-container *ngFor="let h of hotelesList" >
+                                                <option *ngIf="h.region === region" [ngValue]="h">
+                                                    {{h.nombre}}
+                                                </option>
+                                            </ng-container>
+                                        </optgroup>
+                                    </select>
+                                    <a (click)="addHotel()" class="d-block my-auto"><i
+                                        class="fas fa-2x fa-plus-circle text-primary"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="mb-3">
+                                <label class="form-label"></label><br>
+                                <span  *ngFor="let hotel of arregloHotes; index as i"class="m-2">{{hotel.nombre}} <a (click)="remHotel(i)"><i class="fas fa-times-circle text-primary"></i></a></span>
+                            </div>
+                        </div>
+    
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label">Fechas</label>
+                                <div class="d-flex">
+                                    <input type="text"  class="form-control me-1"
+                                        #daterangepicker="bsDaterangepicker" bsDaterangepicker formControlName="rangoInicial"
+                                        [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false, containerClass: 'theme-default', displayOneMonthRange: true }">
+                                    <a (click)="getFechas()" class="d-block my-auto"><i
+                                            class="fas fa-2x fa-plus-circle text-primary"></i></a>
+                                </div>
+    
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="mb-3">
+                                <label class="form-label"></label><br>
+                                <span class="m-2" *ngFor="let fecha of arregoFechas; index as i">{{fecha.finicio}} - {{fecha.ffinal}} <a (click)="remFecha(i)"><i class="fas fa-times-circle text-primary"></i></a></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label">Tipo de grupo</label>
+                                <select formControlName="tipoGrupo" class="form-select me-1" aria-label="Default select example">
+                                    <option *ngFor="let tipo of tipoGrupo" [value]="tipo.nombre">{{ tipo.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label">Plan de alimentos</label>
+                                <select formControlName="planAlimentos" class="form-select me-1" aria-label="Default select example">
+                                    <option *ngFor="let plan of planes" [value]="plan.nombre">{{ plan.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label">No. habitaciones</label>
+                                <input formControlName="habs" type="number" class="form-control" id="">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label">Tipo de ocupación</label>
+                                <div class="row">
+                                    <div class="form-check col-6" *ngFor="let hab of habitaciones; index as i">
+                                        <input class="form-check-input" type="checkbox" (change)="changeTipoOcupacion($event.target.checked, $event.target.defaultValue, i)" [value]="hab.tipo" [id]="hab.tipo">
+                                        <label class="form-check-label" for="SGL">
+                                            {{ hab.tipo }}
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="d-flex">
+                                <div class="me-5">
+                                    <span class="me-2">Menores</span>
+                                    <label class="switch">
+                                        <input formControlName="menores" type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <span class="me-2">Zona para eventos o banquetes</span>
+                                    <label class="switch">
+                                        <input (click)="zonaBanquetesActivar()" type="checkbox" >
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3" *ngIf="zonaEventos">
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label">Tipo de evento</label>
+                                <select formControlName="tipoEvento" class="form-select me-1" aria-label="Default select example">
+                                   <option  *ngFor="let e of eventos" [value]="e.nombre">{{ e.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label class="form-label">No. de personas</label>
+                                <input formControlName="pax" type="number" class="form-control" id="">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label class="form-label">Día</label>
+                                <select formControlName="dia" class="form-select me-1" aria-label="Default select example">
+                                    <option value="Todos los días">Todos los días</option>
+                                    <option value="Primer día">Primer día</option>
+                                    <option value="Último día">Último día</option>
+                                    <option value="">-----------</option>
+                                    <option value="Domingo">Domingo</option>
+                                    <option value="Lunes">Lunes</option>
+                                    <option value="Martes">Martes</option>
+                                    <option value="Miércoles">Miércoles</option>
+                                    <option value="Jueves">Jueves</option>
+                                    <option value="Viernes">Viernes</option>
+                                    <option value="Sábado">Sábado</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label class="form-label">Hora</label>
+                                <timepicker formControlName="hora" type="number" [showSpinners]="false" [showMeridian]="isMeridian"></timepicker>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label class="form-label">Duración</label>
+                                <select formControlName="duracion" class="form-select me-1" aria-label="Default select example">
+                                    <option value="30 minutos"></option>
+                                    <option value="1 Hora">1 Hora</option>
+                                    <option value="1 Hora 30 minutos">1 Hora 30 minutos</option>
+                                    <option value="2 Horas">2 Horas</option>
+                                    <option value="2 Horas 30 minutos">2 Horas 30 minutos</option>
+                                    <option value="3 Horas">3 Horas</option>
+                                    <option value="3 Horas 30 minutos">3 Horas 30 minutos</option>
+                                    <option value="4 Horas">4 Horas</option>
+                                    <option value="4 Horas 30 minutos">4 Horas 30 minutos</option>
+                                    <option value="5 Horas">5 Horas</option>
+                                    <option value="5 Horas 30 minutos">5 Horas 30 minutos</option>
+                                    <option value="6 Horas">6 Horas</option>
+                                    <option value="6 Horas 30 minutos">6 Horas 30 minutos</option>
+                                    <option value="7 Horas">7 Horas</option>
+                                    <option value="7 Horas 30 minutos">7 Horas 30 minutos</option>
+                                    <option value="8 Horas">8 Horas</option>
+                                    <option value="8 Horas 30 minutos">8 Horas 30 minutos</option>
+                                    <option value="9 Horas">9 Horas</option>
+                                    <option value="9 Horas 30 minutos">9 Horas 30 minutos</option>
+                                    <option value="10 Horas">10 Horas</option>
+                                    <option value="10 Horas 30 minutos">10 Horas 30 minutos</option>
+                                    <option value="11 Horas">11 Horas</option>
+                                    <option value="11 Horas 30 minutos">11 Horas 30 minutos</option>
+                                    <option value="12 Horas">12 Horas</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3" *ngFor="let serv of servicios; index as i">
+                            <div class="form-check">
+                                <input (change)="changeTipoServicios($event.target.checked, $event.target.defaultValue, i)" class="form-check-input" type="checkbox" [value]="serv.nombre" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    {{serv.nombre}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3">
+                            <label for="Observaciones" class="form-label">Observaciones</label>
+                            <textarea formControlName="observaciones" class="form-control" id="Observaciones" placeholder="Observaciones"
+                                rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="text-center ms-0 ">
+                            <button class="btn btn-outline-success rounded-pill">Cotizar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

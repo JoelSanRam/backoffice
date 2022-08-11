@@ -1,0 +1,215 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-11 col-lg-11 offset-lg-1 col-xxl-9 offset-xxl-2 offset-md-1">
+            <div class="row">
+                <div class="text-primary ms-0 ">
+                    <button (click)="backResults()" class="btn-outline-primary btn-sm border-0 p-0 mb-3"><i
+                            class="fas fa-angle-left"></i> Regresar</button>
+                    <h5 class="font-italic">Datos del titular</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-9">
+
+                    <div class="row bg-white shadow-sm rounded mb-3 py-2">
+                        <div class="col-12 col-sm-6 col-md-3 mb-2 text-primary">
+                            <h5><b>Tour</b></h5>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6 mb-2 d-flex">
+                            <span style="font-weight: 400">{{tourBook.info.destinoLlegada.destino}} </span>
+
+                        </div>
+                        <div class="col-12  mb-2">
+                            <h6>Titular*</h6>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3 mb-2">
+                            <label for="">
+                                Título
+                            </label>
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Open this select menu</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3 mb-2">
+                            <label for="">
+                                Nombre(s):
+                            </label>
+                            <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3 mb-2">
+                            <label for="">
+                                Apellidos:
+                            </label>
+                            <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3 mb-2">
+                            <label for="">
+                                Edad:
+                            </label>
+                            <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                        </div>
+                        <div class="col-md-6"> <label for="">
+                                Correo electrónico:
+                            </label>
+                            <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                        </div>
+                        <div class="col-md-6"> <label for="">
+                                Teléfono:
+                            </label>
+                            <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                        </div>
+                        <div class="col-12  mb-2">
+                            <label for="">Observaciones</label>
+                            <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                                aria-describedby="basic-addon1">
+                        </div>
+
+                    </div>
+                    <div class="row bg-white shadow-sm rounded mb-3 py-2">
+                        <small>Haremos llegar sus peticiones al hotel, sin embargo están sujetas a disponibilidad y
+                            podría haber cargos adicionales</small>
+                        <div class="col-12  mb-2">
+                            <input type="checkbox" class="me-2"> <label for="">Acepto los términos y condiciones</label>
+                        </div>
+                        <div class="col-12 mb-2 text-center">
+                            <input type="submit" value="Pagar" data-bs-toggle="modal" data-bs-target="#pagarModal"
+                                class="btn btn-outline-success rounded-pill px-5 mx-2">
+                            <input type="submit" value="Reservar"
+                                class="btn btn-outline-primary rounded-pill px-5 mx-2">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card w-100" style="width: 18rem">
+                        <div class="imgHotelDestacado"
+                            [ngStyle]="{background: 'url('+tourBook.info.url_thumb+') no-repeat 0 0 / cover', 'background-position': 'center'}">
+
+                        </div>
+
+                        <div class="card-body p-2">
+                            <h5 class="card-title text-primary">{{tourBook.info?.nombre}}</h5>
+                            <small> {{tourBook.info.destinoLlegada.destino}} </small> <br>
+                            <small><i class="fas fa-arrow-alt-circle-right"></i> Saliendo de:
+                                {{tourBook.info.destinoSalida.destino}} </small>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="">
+                                        <div class="pasajeros">
+                                            <span>Adultos: {{adultos}}</span>
+                                            <span>Menores: {{menores}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between text-center">
+                                <div class="col-md-12">
+                                    <small>Fecha de salida</small>
+                                    <p class="text-warning m-0">{{tourBook.info.fechaSalida}}</p>
+
+                                </div>
+                            </div>
+                            <hr>
+                            <div>
+                                <small class="text-primary">Políticas de cancelación</small> <br>
+                                <small [innerHTML]="tourBook.politicas.politicasCancelacion"></small><br>
+                                <small>Fecha límite de pago: <span
+                                        [innerText]="tourBook.politicas.fechalimite"></span></small>
+                            </div>
+                            <hr>
+                            <div class="text-end">
+                                <label for="">Total de estancia</label>
+                                <h5 class="text-info">$12,694.00 <small>MXN</small></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="pagarModal" tabindex="-1" aria-labelledby="pagarModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Monto a pagar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row text-center">
+                    <h6 class="text-primary">Total a pagar:</h6>
+                    <h5 class="text-secondary">$15,000.00 MXN</h5>
+                </div>
+                <div class="form-check">
+                    <input [(ngModel)]="otraCantidad" class="form-check-input" type="checkbox" value=""
+                        id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Pagar otra cantidad
+                    </label>
+                </div>
+                <div *ngIf="otraCantidad" class="row mt-3">
+                    <div class="col-6">
+                        <input type="text" name="" placeholder="Importe" class="form-control">
+                    </div>
+                    <div class="col-6">
+                        <h5 class="text-primary">Saldo pendiente</h5>
+                        <h4 class="text-secondary">$12,000.00 MXN</h4>
+                    </div>
+                </div>
+                <div class="text-center my-4 col-12">
+                    <button type="button" class="btn btn-outline-success rounded-pill px-5 mx-2"
+                        data-bs-dismiss="modal">Pagar</button>
+                    <button type="button" data-bs-target="#ligaPago" data-bs-toggle="modal"
+                        class="btn btn-outline-primary rounded-pill px-5 mx-2">Liga de pago</button>
+                </div>
+                <div class="row">
+                    <small class="mb-3">Límite de pago: $12,000.00 MXN</small>
+                    <small>Bancos Participantes a Meses: Santander, Afirme, Banco del Bajío, Banca
+                        Mifel, Famsa, Banorte, BanRegio, HSBC, Inbursa, Invex, Liverpool, Scotiabank,
+                        Banjercito e Itaucard.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ligaPago" aria-hidden="true" aria-labelledby="ligaPago" tabindex="-1">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Liga de pago</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="row text-warning m-0">
+                    <span>{{ligaPago}}</span>
+                </div>
+                <div class="row m-0">
+                    <div class="col-12">
+                        <img src="https://qrcode.tec-it.com/API/QRCode?data=smsto%3A555-555-5555%3AGenerador+de+C%C3%B3digos+QR+de+TEC-IT"
+                        class="img-fluid my-3 mx-auto" alt="">
+                        <button (click)="copiarLigaPago()" class="btn btn-outline-primary rounded-pill px-3">Copiar</button>
+                    </div>
+                </div>
+                <div class="row my-3 ms-0">
+                    <div class="mb-3">
+                        <label for="enviarCorreo" class="form-label text-start d-block">Enviar a correo</label>
+                        <input type="email" class="form-control" id="enviarCorreo" placeholder="Correo electrónico">
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-outline-primary rounded-pill px-3">Enviar</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

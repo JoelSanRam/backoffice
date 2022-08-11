@@ -1,0 +1,146 @@
+a
+  text-decoration: none
+
+/*===== HEADER =====
+
+.header
+  width: 100%
+  height: 3rem
+  position: fixed
+  top: 0
+  left: 0
+  display: flex
+  align-items: center
+  justify-content: space-between
+  padding: 0 1rem
+  background: rgb(44,46,101)
+  background: linear-gradient(135deg, #CF0073 20%, #F7AD1B 100%)
+  z-index: 100
+  transition: .5s
+
+.header__toggle
+  color: #fefefe
+  font-size: 1.5rem
+  cursor: pointer
+
+.header__img
+  width: 35px
+  height: 35px
+  display: flex
+  justify-content: center
+  border-radius: 50%
+  overflow: hidden
+
+  img
+    width: 40px
+
+
+
+/*Active links
+.icon
+  display: none
+.active
+  font-size: 23px !important
+  font-weight: 600
+
+  >
+    span
+      text-decoration: underline
+
+  >
+    .icon
+      display: inline
+      margin-right: 5px
+
+.activeIcons
+  color: #0eaa9f
+
+
+.dropbtn
+  background-color: transparentize(#fff, 1)
+  color: white
+  
+  border: none
+  cursor: pointer
+
+.dropdown
+  position: relative
+  display: inline-block
+
+.dropdown-content
+  display: none
+  position: absolute
+  background-color: #f9f9f9
+  min-width: 160px
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2)
+  z-index: 1
+
+  a
+    color: black
+    padding: 12px 16px
+    text-decoration: none
+    display: block
+
+    &:hover
+      background-color: #f1f1f1
+
+.dropdown:hover
+  .dropdown-content
+    display: block
+
+  .dropbtn
+    background-color: transparentize(#000, 1)
+
+/* ===== MEDIA QUERIES=====
+@media screen and (min-width: 992px)
+ 
+  .header
+    height: calc(3rem + 0rem)
+    // padding: 0 2rem 0 calc(68px + 2rem)
+
+  .header__img
+    width: 40px
+    height: 40px
+
+    img
+      width: 45px
+
+  .show
+    width: calc(68px + 0px)
+
+  .showActive
+      width: calc(68px + 156px)
+
+  /*Add padding body desktop
+  
+  .menuHeader >
+    a
+      margin: 0 10px
+      color: #fff
+      font-size: 18px
+  
+
+.checkMenu
+  display: none
+
+.menuResponsive
+  display: none
+
+.menuNoResponsive
+  display: block
+
+.imgLogoMenu
+  max-width: 120px
+
+.headerNoResponsiveCompleto
+  margin-left: 70px
+  
+@media screen and (max-width: 992px)
+  .checkMenu
+    display: block
+
+  .menuResponsive
+    display: block
+
+  .menuNoResponsive
+    display: none

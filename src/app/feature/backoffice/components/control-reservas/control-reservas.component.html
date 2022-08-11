@@ -1,0 +1,928 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-10 offset-md-1">
+      <div class="row bg-white shadow-sm rounded-3 mb-3 pt-1 pb-3">
+        <div class="col-12 my-3 text-primary tituloHomes">
+          <i class="fas fa-inbox"></i> <span class="mx-2"><b>Tus reservas</b></span>
+        </div>
+        <div class="col-12 col-sm-12 col-md-2 mb-2">
+          <label>ID</label>
+          <input type="text" class="form-control input-group-lg" placeholder="" id="" />
+        </div>
+        <div class="col-12 col-sm-12 col-md-2 mb-2">
+          <label>Servicio</label>
+          <input type="text" class="form-control input-group-lg" placeholder="" id="" />
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-2 mb-2">
+          <label for=""> Agencia </label>
+          <input type="text" class="form-control input-group-lg" placeholder="" id="" />
+        </div>
+
+        <div class="col-2 col-sm-4 col-md-1 mb-2">
+          <label class="w-100" for=""> Pax </label>
+          <input type="text" class="form-control input-group-lg" placeholder="" id="" />
+        </div>
+        <div class="col-12 col-sm-12 col-md-2 mb-2">
+          <label>Ejecutivo</label>
+          <input type="text" class="form-control input-group-lg" placeholder="" id="" />
+        </div>
+
+        <div class="col-2 col-sm-4 col-md-2 mb-2">
+          <label>Status</label>
+          <select class="form-select w-100" name="select">
+            <option value="value1">Value 1</option>
+            <option value="value2" selected>Value 2</option>
+            <option value="value3">Value 3</option>
+          </select>
+        </div>
+
+        <div class="text-center col-12 col-sm-12 col-md-1 mb-2 mt-4 d-flex align-items-center justify-content-center">
+          <button class="btn btn-sm btn-outline-info rounded-pill ">
+            Filtrar
+          </button>
+        </div>
+        <div class="collapse" id="MasFiltros">
+          <div class="row my-3">
+            <div class="col-12 col-sm-12 col-md-15 mb-2">
+              <label for=""> Fecha reserva </label>
+              <input type="text" class="form-control " [(ngModel)]="bsRangeValue" #daterangepicker="bsDaterangepicker"
+                bsDaterangepicker
+                [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false, containerClass: 'theme-default' }"
+                [minDate]="minDate">
+            </div>
+            <div class="col-12 col-sm-12 col-md-15 mb-2">
+              <label for=""> Check in </label>
+              <input type="text" class="form-control " [(ngModel)]="bsRangeValue" #daterangepicker="bsDaterangepicker"
+                bsDaterangepicker
+                [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false, containerClass: 'theme-default' }"
+                [minDate]="minDate">
+            </div>
+            <div class="col-12 col-sm-12 col-md-15 mb-2">
+              <label for=""> Check out </label>
+              <input type="text" class="form-control " [(ngModel)]="bsRangeValue" #daterangepicker="bsDaterangepicker"
+                bsDaterangepicker
+                [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false, containerClass: 'theme-default' }"
+                [minDate]="minDate">
+            </div>
+            <div class="col-12 col-sm-12 col-md-15 mb-2">
+              <label for=""> Fecha límite agencia </label>
+              <input type="text" class="form-control " [(ngModel)]="bsRangeValue" #daterangepicker="bsDaterangepicker"
+                bsDaterangepicker
+                [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false, containerClass: 'theme-default' }"
+                [minDate]="minDate">
+            </div>
+            <div class="col-12 col-sm-12 col-md-15 mb-2">
+              <label for=""> Fecha límite hotel </label>
+              <input type="text" class="form-control " [(ngModel)]="bsRangeValue" #daterangepicker="bsDaterangepicker"
+                bsDaterangepicker
+                [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false, containerClass: 'theme-default' }"
+                [minDate]="minDate">
+            </div>
+          </div>
+          <div class="row my-3">
+            <div class="col-12 col-sm-12 col-md-15 mb-2">
+              <label for="">Pago de proveedor </label>
+              <select class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+            <div class="col-12 col-sm-12 col-md-15 mb-2">
+              <label for=""> Banderas </label>
+              <select class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+            <div class="col-12 col-sm-12 col-md-15 mb-2">
+              <label for="">Brokers</label>
+              <select class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+            <div class="col-12 col-sm-12 col-md-15 mb-2">
+              <label for="">Ordenar por</label>
+              <select class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+            <div class="col-12 col-sm-12 col-md-15 mb-2">
+              <label for="">Tipo de orden</label>
+              <select class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+          </div>
+          <div class="row my-3">
+            <div class="col-12 col-sm-12 col-md-3 mb-2">
+              <label for="">Individual / Bloqueos </label>
+              <select class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+            <div class="col-12 col-sm-12 col-md-3 mb-2">
+              <label for="">Origen </label>
+              <select class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+            <div class="col-12 col-sm-12 col-md-3 mb-2">
+              <label for="">Tipo de producto</label>
+              <select class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+            <div class="col-12 col-sm-12 col-md-3 mb-2">
+              <label for="">Producto P. / Compartido</label>
+              <select class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row my-3 text-primary">
+          <div class="col-md-6 col-sm-12">
+            <button class="btn btn-sm btn-primary text-white rounded-pill me-3">
+              + Reserva
+            </button>
+            <button class="btn btn-sm btn-success text-white rounded-pill me-3">
+              Descargar todos
+            </button>
+            <button class="btn btn-sm btn-info text-white rounded-pill ">
+              Pagar
+            </button>
+          </div>
+          <div class="col-md-6 col-sm-12 d-flex justify-content-end">
+            <div class="form-check me-3">
+              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+              <label class="form-check-label" for="flexCheckDefault">
+                Buscar en todos los operadores
+              </label>
+            </div>
+            <button class="btn btn-sm btn-outline-secondary rounded-pill" data-bs-toggle="collapse" href="#MasFiltros"
+              role="button" aria-expanded="false" aria-controls="MasFiltros"><i class="fas fa-filter"></i>
+              Ver más filtros
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="table-responsive rounded ps-0">
+          <table class="table rounded shadow-sm">
+            <thead class=" align-middle">
+              <tr class="text-center my-auto">
+                <th scope="col">ID</th>
+                <th scope="col">Status</th>
+                <th scope="col">Canal de venta</th>
+                <th scope="col">Fecha de venta</th>
+                <th scope="col">Nombre del cliente</th>
+                <th scope="col">Nombre del producto</th>
+                <th scope="col">Destino</th>
+                <th scope="col">Llegada/Salida</th>
+                <th scope="col">Agencia</th>
+                <th scope="col">Tarifa</th>
+                <th scope="col">Proveedor</th>
+                <th scope="col">F. límite agencia</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white text-center align-middle">
+              <tr>
+                <th scope="row">
+                  <div class="d-flex">
+                    <input class="form-check-input my-auto me-2" type="checkbox" id="checkboxNoLabel" value=""
+                      aria-label="...">
+                    <i class="fas fa-hotel my-auto"></i>
+                    <div class="dropdown dropend">
+                      <button class="btn dropdown-toggle textDropdown" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        17090641
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editar">Editar</a></li>
+                        <li><a class="dropdown-item" href="#">Cupón</a></li>
+                        <li><a class="dropdown-item" href="#">Proforma</a></li>
+                        <li><a class="dropdown-item" href="#">Enviar a bandeja de entrada</a></li>
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#revisar">Revisar</a></li>
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#pagar">Pagar</a></li>
+                        <li><a class="dropdown-item" href="#">Pago operador</a></li>
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#cancelar">Cancelar</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </th>
+                <td scope="row"><span class="valorSpanStatus bg-primary rounded-circle text-white me-1 p-1">CA</span>
+                  <i class="fas fa-dollar-sign me-1"></i>
+                  <i class="fas fa-flag text-warning me-1"></i>
+                  <i class="fas fa-flag text-primary me-1"></i>
+                  <i class="fas fa-flag text-success"></i>
+                </td>
+                <td class="canalVenta">
+                  <span class="bg-info text-white px-2 rounded-pill">Azamid</span>
+                  <span class="bg-warning text-white px-2 rounded-pill">Agencia</span>
+                </td>
+                <td>2021-05-13</td>
+                <td>Joel Sánchez</td>
+                <td>Hotel Xcaret Arte</td>
+                <td>Cancún Q.R.</td>
+                <td>28/08/22-01/11/22</td>
+                <td>Tip Travel Caribe</td>
+                <td>$43,000.00 MXN</td>
+                <td>HotelBEds</td>
+                <td>20/08/2022</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <div class="d-flex">
+                    <input class="form-check-input my-auto me-2" type="checkbox" id="checkboxNoLabel" value=""
+                      aria-label="...">
+                    <i class="fas fa-hotel my-auto"></i>
+                    <div class="dropdown dropend">
+                      <button class="btn dropdown-toggle textDropdown" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        17090641
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#">Editar</a></li>
+                        <li><a class="dropdown-item" href="#">Cupón</a></li>
+                        <li><a class="dropdown-item" href="#">Proforma</a></li>
+                        <li><a class="dropdown-item" href="#">Enviar a bandeja de entrada</a></li>
+                        <li><a class="dropdown-item" href="#">Revisar</a></li>
+                        <li><a class="dropdown-item" href="#">Pagar</a></li>
+                        <li><a class="dropdown-item" href="#">Pago operador</a></li>
+                        <li><a class="dropdown-item" href="#">Cancelar</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </th>
+                <td scope="row"><span class="valorSpanStatus bg-primary rounded-circle text-white me-1 p-1">CA</span>
+                  <i class="fas fa-dollar-sign me-1"></i>
+                  <i class="fas fa-flag text-warning me-1"></i>
+                  <i class="fas fa-flag text-primary me-1"></i>
+                  <i class="fas fa-flag text-success"></i>
+                </td>
+                <td class="canalVenta">
+                  <span class="bg-info text-white px-2 rounded-pill">Azamid</span>
+                  <span class="bg-warning text-white px-2 rounded-pill">Agencia</span>
+                </td>
+                <td>2021-05-13</td>
+                <td>Joel Sánchez</td>
+                <td>Hotel Xcaret Arte</td>
+                <td>Cancún Q.R.</td>
+                <td>28/08/22-01/11/22</td>
+                <td>Tip Travel Caribe</td>
+                <td>$43,000.00 MXN</td>
+                <td>HotelBEds</td>
+                <td>20/08/2022</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <div class="d-flex">
+                    <input class="form-check-input my-auto me-2" type="checkbox" id="checkboxNoLabel" value=""
+                      aria-label="...">
+                    <i class="fas fa-hotel my-auto"></i>
+                    <div class="dropdown dropend">
+                      <button class="btn dropdown-toggle textDropdown" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        17090641
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#">Editar</a></li>
+                        <li><a class="dropdown-item" href="#">Cupón</a></li>
+                        <li><a class="dropdown-item" href="#">Proforma</a></li>
+                        <li><a class="dropdown-item" href="#">Enviar a bandeja de entrada</a></li>
+                        <li><a class="dropdown-item" href="#">Revisar</a></li>
+                        <li><a class="dropdown-item" href="#">Pagar</a></li>
+                        <li><a class="dropdown-item" href="#">Pago operador</a></li>
+                        <li><a class="dropdown-item" href="#">Cancelar</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </th>
+                <td scope="row"><span class="valorSpanStatus bg-primary rounded-circle text-white me-1 p-1">CA</span>
+                  <i class="fas fa-dollar-sign me-1"></i>
+                  <i class="fas fa-flag text-warning me-1"></i>
+                  <i class="fas fa-flag text-primary me-1"></i>
+                  <i class="fas fa-flag text-success"></i>
+                </td>
+                <td class="canalVenta">
+                  <span class="bg-info text-white px-2 rounded-pill">Azamid</span>
+                  <span class="bg-warning text-white px-2 rounded-pill">Agencia</span>
+                </td>
+                <td>2021-05-13</td>
+                <td>Joel Sánchez</td>
+                <td>Hotel Xcaret Arte</td>
+                <td>Cancún Q.R.</td>
+                <td>28/08/22-01/11/22</td>
+                <td>Tip Travel Caribe</td>
+                <td>$43,000.00 MXN</td>
+                <td>HotelBEds</td>
+                <td>20/08/2022</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <div class="d-flex">
+                    <input class="form-check-input my-auto me-2" type="checkbox" id="checkboxNoLabel" value=""
+                      aria-label="...">
+                    <i class="fas fa-hotel my-auto"></i>
+                    <div class="dropdown dropend">
+                      <button class="btn dropdown-toggle textDropdown" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        17090641
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#">Editar</a></li>
+                        <li><a class="dropdown-item" href="#">Cupón</a></li>
+                        <li><a class="dropdown-item" href="#">Proforma</a></li>
+                        <li><a class="dropdown-item" href="#">Enviar a bandeja de entrada</a></li>
+                        <li><a class="dropdown-item" href="#">Revisar</a></li>
+                        <li><a class="dropdown-item" href="#">Pagar</a></li>
+                        <li><a class="dropdown-item" href="#">Pago operador</a></li>
+                        <li><a class="dropdown-item" href="#">Cancelar</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </th>
+                <td scope="row"><span class="valorSpanStatus bg-primary rounded-circle text-white me-1 p-1">CA</span>
+                  <i class="fas fa-dollar-sign me-1"></i>
+                  <i class="fas fa-flag text-warning me-1"></i>
+                  <i class="fas fa-flag text-primary me-1"></i>
+                  <i class="fas fa-flag text-success"></i>
+                </td>
+                <td class="canalVenta">
+                  <span class="bg-info text-white px-2 rounded-pill">Azamid</span>
+                  <span class="bg-warning text-white px-2 rounded-pill">Agencia</span>
+                </td>
+                <td>2021-05-13</td>
+                <td>Joel Sánchez</td>
+                <td>Hotel Xcaret Arte</td>
+                <td>Cancún Q.R.</td>
+                <td>28/08/22-01/11/22</td>
+                <td>Tip Travel Caribe</td>
+                <td>$43,000.00 MXN</td>
+                <td>HotelBEds</td>
+                <td>20/08/2022</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <div class="d-flex">
+                    <input class="form-check-input my-auto me-2" type="checkbox" id="checkboxNoLabel" value=""
+                      aria-label="...">
+                    <i class="fas fa-hotel my-auto"></i>
+                    <div class="dropdown dropend">
+                      <button class="btn dropdown-toggle textDropdown" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        17090641
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#">Editar</a></li>
+                        <li><a class="dropdown-item" href="#">Cupón</a></li>
+                        <li><a class="dropdown-item" href="#">Proforma</a></li>
+                        <li><a class="dropdown-item" href="#">Enviar a bandeja de entrada</a></li>
+                        <li><a class="dropdown-item" href="#">Revisar</a></li>
+                        <li><a class="dropdown-item" href="#">Pagar</a></li>
+                        <li><a class="dropdown-item" href="#">Pago operador</a></li>
+                        <li><a class="dropdown-item" href="#">Cancelar</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </th>
+                <td scope="row"><span class="valorSpanStatus bg-primary rounded-circle text-white me-1 p-1">CA</span>
+                  <i class="fas fa-dollar-sign me-1"></i>
+                  <i class="fas fa-flag text-warning me-1"></i>
+                  <i class="fas fa-flag text-primary me-1"></i>
+                  <i class="fas fa-flag text-success"></i>
+                </td>
+                <td class="canalVenta">
+                  <span class="bg-info text-white px-2 rounded-pill">Azamid</span>
+                  <span class="bg-warning text-white px-2 rounded-pill">Agencia</span>
+                </td>
+                <td>2021-05-13</td>
+                <td>Joel Sánchez</td>
+                <td>Hotel Xcaret Arte</td>
+                <td>Cancún Q.R.</td>
+                <td>28/08/22-01/11/22</td>
+                <td>Tip Travel Caribe</td>
+                <td>$43,000.00 MXN</td>
+                <td>HotelBEds</td>
+                <td>20/08/2022</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <div class="d-flex">
+                    <input class="form-check-input my-auto me-2" type="checkbox" id="checkboxNoLabel" value=""
+                      aria-label="...">
+                    <i class="fas fa-hotel my-auto"></i>
+                    <div class="dropdown dropend">
+                      <button class="btn dropdown-toggle textDropdown" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        17090641
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#">Editar</a></li>
+                        <li><a class="dropdown-item" href="#">Cupón</a></li>
+                        <li><a class="dropdown-item" href="#">Proforma</a></li>
+                        <li><a class="dropdown-item" href="#">Enviar a bandeja de entrada</a></li>
+                        <li><a class="dropdown-item" href="#">Revisar</a></li>
+                        <li><a class="dropdown-item" href="#">Pagar</a></li>
+                        <li><a class="dropdown-item" href="#">Pago operador</a></li>
+                        <li><a class="dropdown-item" href="#">Cancelar</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </th>
+                <td scope="row"><span class="valorSpanStatus bg-primary rounded-circle text-white me-1 p-1">CA</span>
+                  <i class="fas fa-dollar-sign me-1"></i>
+                  <i class="fas fa-flag text-warning me-1"></i>
+                  <i class="fas fa-flag text-primary me-1"></i>
+                  <i class="fas fa-flag text-success"></i>
+                </td>
+                <td class="canalVenta">
+                  <span class="bg-info text-white px-2 rounded-pill">Azamid</span>
+                  <span class="bg-warning text-white px-2 rounded-pill">Agencia</span>
+                </td>
+                <td>2021-05-13</td>
+                <td>Joel Sánchez</td>
+                <td>Hotel Xcaret Arte</td>
+                <td>Cancún Q.R.</td>
+                <td>28/08/22-01/11/22</td>
+                <td>Tip Travel Caribe</td>
+                <td>$43,000.00 MXN</td>
+                <td>HotelBEds</td>
+                <td>20/08/2022</td>
+              </tr>
+
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editar" tabindex="-1" aria-labelledby="editarLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="editarLabel">ID- 151515</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
+              type="button" role="tab" aria-controls="pills-home" aria-selected="true">Datos de la reserva</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
+              type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Hotel</button>
+          </li>
+
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+          <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+            <div class="row">
+              <div class="col-12 col-sm-12 col-md-6 col-xl-6 col-xxl-6">
+                <div class="shadow-sm rounded-3 m-3 p-3">
+                  <span class="d-block w-100 text-primary mb-3"><b>Reservación</b></span>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item border-0 text-secondary">Nombre de agencia</li>
+                        <li class="list-group-item border-0 colorGris">Azabache MTY</li>
+                        <li class="list-group-item border-0 text-secondary">Agente de ventas</li>
+                        <li class="list-group-item border-0 colorGris">Sotanito</li>
+                        <li class="list-group-item border-0 text-secondary">Status de la Reserva</li>
+                        <li class="list-group-item border-0 colorGris">Pendiente</li>
+                        <li class="list-group-item border-0 text-secondary">Status Pago Operador</li>
+                        <li class="list-group-item border-0 colorGris">Pendiente</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-6">
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item border-0 text-secondary">Categoría de agencia</li>
+                        <li class="list-group-item border-0 colorGris">Silver</li>
+                        <li class="list-group-item border-0 text-secondary">Origen</li>
+                        <li class="list-group-item border-0 colorGris">Conexión</li>
+                        <li class="list-group-item border-0 text-secondary">Status Pago Agencia</li>
+                        <li class="list-group-item border-0 colorGris">Pendiente</li>
+                        <li class="list-group-item border-0 text-secondary">Status Pago Proveedor</li>
+                        <li class="list-group-item border-0 colorGris">Pendiente</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-xl-6 col-xxl-6">
+                <div class="shadow-sm rounded-3 m-3 p-3">
+                  <span class="d-block w-100 text-primary mb-3"><b>Titular</b></span>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item border-0 text-secondary">Titular de la reserva</li>
+                        <li class="list-group-item border-0 colorGris">Saoko papi saoko</li>
+                        <li class="list-group-item border-0 text-secondary">Correo</li>
+                        <li class="list-group-item border-0 colorGris">saoko@gmail.com</li>
+
+                      </ul>
+                    </div>
+                    <div class="col-md-6">
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item border-0 text-secondary">Teléfono</li>
+                        <li class="list-group-item border-0 colorGris">999999999</li>
+                        <li class="list-group-item border-0 text-secondary">Nacionalidad</li>
+                        <li class="list-group-item border-0 colorGris">México</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="shadow-sm rounded-3 m-3 p-3">
+                  <span class="d-block w-100 text-primary mb-3"><b>Saldo</b></span>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item border-0 text-secondary">Monto total</li>
+                        <li class="list-group-item border-0 colorGris">{{'150000' | currency}}</li>
+
+                      </ul>
+                    </div>
+                    <div class="col-md-6">
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item border-0 text-secondary">Saldo</li>
+                        <li class="list-group-item border-0 colorGris">{{'150000' | currency}}</li>
+                      </ul>
+                    </div>
+                    <div class="d-flex justify-content-around">
+                      <button class="btn btn-outline-primary rounded-pill">Historial de pago</button>
+                      <button class="btn btn-outline-info rounded-pill">Bitácora</button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+            <div class="row">
+              <div class="col-12 col-sm-12 col-md-6 col-xl-6 col-xxl-6">
+                <div class="shadow-sm rounded-3 m-3 p-3">
+                  <span class="d-block w-100 text-primary mb-3"><b>Hotel</b></span>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item border-0 text-secondary">Nombre del hotel</li>
+                        <li class="list-group-item border-0 colorGris">Azabache MTY</li>
+                        <li class="list-group-item border-0 text-secondary">Destino</li>
+                        <li class="list-group-item border-0 colorGris">Sotanito</li>
+                        <li class="list-group-item border-0 text-secondary">Contrato</li>
+                        <li class="list-group-item border-0 colorGris">khe</li>
+                        <li class="list-group-item border-0 text-secondary">Plan de alimentos</li>
+                        <li class="list-group-item border-0 colorGris">noc</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-6">
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item border-0 text-secondary">Categoría del hotel</li>
+                        <li class="list-group-item border-0 colorGris">Silver</li>
+                        <li class="list-group-item border-0 text-secondary">Proveedor</li>
+                        <li class="list-group-item border-0 colorGris">broker</li>
+                        <li class="list-group-item border-0 text-secondary">Fechas</li>
+                        <li class="list-group-item border-0 colorGris">19/11/22 - 21/11/22</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="shadow-sm rounded-3 m-3 p-3">
+                  <span class="d-block w-100 text-primary mb-3"><b>Habitaciones</b></span>
+                  <button class="btn w-100 text-start form-select bordeDorado" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Nombre de la habitación - 151515 <br>
+                    Fulanito de tal
+                  </button>
+                  <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                      <div class="row mb-4">
+                        <div class="col-12 col-sm-12 col-md-6 col-xl-6 col-xxl-6">
+                          <p>Pasajeros</p>
+                          <button class="btn btn-sm colorGris py-0 form-select text-start" type="button" data-bs-auto-close="false"
+                            id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Adu {{numHab}}
+                            &nbsp;&nbsp;&nbsp;&nbsp; Men {{personas}}
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                          </button>
+
+                          <div class="dropdown-menu p-0 text-muted" aria-labelledby="dropdownMenuButton1"
+                            style="width: 18rem; z-index: 10;">
+                            <div class="card-header bg-primary text-white">
+                              Habitaciones y pasajeros
+                            </div>
+                            <div class="d-flex justify-content-around my-3">
+                              <div>
+                                <span>Número de habitaciones</span>
+                              </div>
+                              <div class="d-flex justify-content-between w-25">
+                                <a (click)="AddRemoveHab('rm')" [ngClass]="numHab == 1 ? 'disabled' : ''"
+                                  class="text-warning"><i class="fas fa-minus-circle"></i></a>
+                                <span>{{numHab}}</span>
+                                <a (click)="AddRemoveHab('add')" [ngClass]="numHab == 8 ? 'disabled' : ''"
+                                  class="text-warning"><i class="fas fa-plus-circle"></i></a>
+                              </div>
+                            </div>
+                            <div *ngFor="let item of habitaciones; index as i" class="px-2">
+                              <h6>Habitación {{i+1}}</h6>
+                              <div class="d-flex py-2">
+                                <div class="d-flex justify-content-between w-50 me-2">
+                                  <span>Adultos</span>
+                                  <a (click)="addRemoveAdulto(i,'rm')" [ngClass]=" item.adultos == 1 ? 'disabled' : ''"
+                                    class="text-warning"><i class="fas fa-minus-circle"></i></a>
+                                  <span>{{ item.adultos}}</span>
+                                  <a (click)="addRemoveAdulto(i,'add')" [ngClass]=" item.adultos == 5 ? 'disabled' : ''"
+                                    class="text-warning"><i class="fas fa-plus-circle"></i></a>
+                                </div>
+                                <div class="d-flex justify-content-between w-50">
+                                  <span>Menores</span>
+                                  <a (click)="addRemoveMenor(item,'rm')"
+                                    [ngClass]="item.edadmenores.length == 0 ? 'disabled' : ''" class="text-warning"><i
+                                      class="fas fa-minus-circle"></i></a>
+                                  <span>{{item.edadmenores.length}}</span>
+                                  <a (click)="addRemoveMenor(item,'add')"
+                                    [ngClass]="item.edadmenores.length == 3 ? 'disabled' : ''" class="text-warning"><i
+                                      class="fas fa-plus-circle"></i></a>
+                                </div>
+                              </div>
+                              <div *ngIf="item.edadmenores.length > 0">
+                                <div class="d-flex my-2 justify-content-end"
+                                  *ngFor="let menor of item.edadmenores; index as e">
+                                  <span class="me-2">Edad del menor {{e+1}}</span>
+                                  <input type="text" value="0" class="form-control form-control-sm w-25">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-xl-6 col-xxl-6">
+                          <p>Código deconfirmación</p>
+                          <label class="colorGris">SSSS555</label>
+                        </div>
+                      </div>
+                      <div class="row mb-4">
+                        <div class="col-12 col-sm-12 col-md-2 col-xl-2 col-xxl-2">
+                          <p>Titulo</p>
+                          <label class="colorGris">sr.</label>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-7 col-xl-7 col-xxl-7">
+                          <p>Nombre(s)</p>
+                          <label class="colorGris">Saoko papi Saoko</label>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-3 col-xl-3 col-xxl-3">
+                          <p>Edad</p>
+                          <label class="colorGris">30</label>
+                        </div>
+                      </div>
+                      <p>Detalles de la tarifa</p>
+                      <div class="row">
+                        <div class="col-md-21">
+                          <p>Lun</p>
+                          <label class="colorGris">$100.00</label>
+                        </div>
+                        <div class="col-md-21">
+                          <p>Mar</p>
+                          <label class="colorGris">Check out: <br> 12:00 hrs</label>
+                        </div>
+                        <div class="col-md-21">
+                          <p>Mar</p>
+                          <label class="colorGris">Check out: <br> 12:00 hrs</label>
+                        </div>
+                        <div class="col-md-21">
+                          <p>Mie</p>
+                          <label class="colorGris">Check out: <br> 12:00 hrs</label>
+                        </div>
+                        <div class="col-md-21">
+                          <p>Vie</p>
+                          <label class="colorGris">Check out: <br> 12:00 hrs</label>
+                        </div>
+                        <div class="col-md-21">
+                          <p>Sab</p>
+                          <label class="colorGris">Check out: <br> 12:00 hrs</label>
+                        </div>
+                        <div class="col-md-21">
+                          <p>Dom</p>
+                          <label class="colorGris">----</label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <p>Observaciones</p>
+                        <label class="colorGris">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi blanditiis mollitia iste ducimus iure, perspiciatis expedita laboriosam deserunt sunt consequatur consectetur aliquid inventore nostrum soluta at quia qui explicabo illum!</label>
+                      </div>
+                      <div class="text-end">
+                        <button class="btn btn-primary rounded-pill text-white">Eliminar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-12 col-sm-12 col-md-6 col-xl-6 col-xxl-6">
+                <div class="shadow-sm rounded-3 m-3 p-3">
+                  <span class="d-block w-100 text-primary mb-3"><b>Tarifas</b></span>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item border-0 text-secondary">Neta Broker</li>
+                        <li class="list-group-item border-0 colorGris">{{'15000' | currency}}</li>
+                        <li class="list-group-item border-0 text-secondary">Pública</li>
+                        <li class="list-group-item border-0 colorGris">{{'15000' | currency}}</li>
+                        <li class="list-group-item border-0 text-secondary">Comisión (%)</li>
+                        <li class="list-group-item border-0 colorGris">10%</li>
+                        <li class="list-group-item border-0 text-secondary">Moneda de cambio</li>
+                        <li class="list-group-item border-0">
+                          <select class="form-select py-0" id="">
+                            <option value="mxn">Peso mexicano</option>
+                            <option value="eu">Euro</option>
+                          </select>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-md-6">
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item border-0 text-secondary">Neta operador</li>
+                        <li class="list-group-item border-0 colorGris">{{'15000' | currency}}</li>
+                        <li class="list-group-item border-0 text-secondary">Agencia</li>
+                        <li class="list-group-item border-0 colorGris">{{'15000' | currency}}</li>
+                        <li class="list-group-item border-0 text-secondary">Comisión ($)</li>
+                        <li class="list-group-item border-0 colorGris">{{'15000' | currency}}</li>
+                        <li class="list-group-item border-0 text-secondary">Tasa de cambio</li>
+                        <li class="list-group-item border-0 colorGris">{{'15000' | currency}}MXN</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="shadow-sm rounded-3 m-3 p-3">
+                  <span class="d-block w-100 text-primary mb-3"><b>Datos generales</b></span>
+                  <div class="row">
+                    <p>Políticas del hotel</p>
+                    <label class="colorGris">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi blanditiis mollitia iste ducimus iure, perspiciatis expedita laboriosam deserunt sunt consequatur consectetur aliquid inventore nostrum soluta at quia qui explicabo illum!</label>
+                  </div>
+                  <div class="row">
+                    <p>Información importante</p>
+                    <label class="colorGris">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi blanditiis mollitia iste ducimus iure, perspiciatis expedita laboriosam deserunt sunt consequatur consectetur aliquid inventore nostrum soluta at quia qui explicabo illum!</label>
+                  </div>
+                  <div class="row">
+                    <p>Observaciones proforma</p>
+                    <label class="colorGris">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi blanditiis mollitia iste ducimus iure, perspiciatis expedita laboriosam deserunt sunt consequatur consectetur aliquid inventore nostrum soluta at quia qui explicabo illum!</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer mx-auto border-0">
+        <button type="button" class="btn btn-success text-white">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="revisar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="exampleModalLabel"> <i class="fas fa-info-circle" aria-hidden="true"></i> ¿Está todo listo?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Asegúrate de hablar al hotel y confirmar que todo esté en orden con la reservación
+      </div>
+<!--       <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="pagar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="exampleModalLabel"> Monto a pagar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row px-3 mb-3">
+          <div class="text-center">
+            <span class="text-primary fw-bold" >Total a pagar</span> <br>
+            <h5 class="text-secondary">$00,000.00 <small class="text-primary" >MXN</small></h5>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" [(ngModel)]="otraCantidad" type="checkbox" value="" id="otraCantidad"/>
+            <label class="form-check-label" for="otraCantidad">
+              Pagar otra cantidad {{otraCantidad}}
+            </label>
+          </div>
+        </div>
+        <div class="row mb-3" *ngIf="otraCantidad">
+         <div class="col-6">
+          <input type="number" class="form-control" placeholder="Importe">
+         </div>
+         <div class="col-6">
+          <span class="text-primary fw-bold" >Saldo pendiente</span> <br>
+          <h5 class="text-secondary">$00,000.00 <small class="text-primary" >MXN</small></h5>
+         </div>
+        </div>
+        <div class="row mb-3">
+          <div class="d-flex justify-content-around">
+            <button class="btn btn-outline-success rounded-pill" >Pagar</button>
+          <button class="btn btn-outline-primary rounded-pill" >Liga de pago</button>
+          </div>
+        </div>
+        <div class="row fw-normal">
+          <small>Límite de pago $51,000.00</small> <br>
+          <small>Bancos Participantes a Meses: Santander, Afirme, Banco del Bajío, Banca
+            Mifel, Famsa, Banorte, BanRegio, HSBC, Inbursa, Invex, Liverpool, Scotiabank,
+            Banjercito e Itaucard.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="cancelar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="exampleModalLabel"> ¿Desea cancelar la reservación 15616-7</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-3">
+          <div class="col-1">
+            <i class="fas fa-info-circle fa-2x text-success" aria-hidden="true"></i>
+          </div>
+          <div class="col-11 fw-normal">
+            Esta reserva cuenta con el servicio de cancelación en línea con el proveedor
+          </div>
+        </div>
+        <div class="row mb-3">
+          <h5>Políticas de cancelación</h5>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores, nisi nobis, itaque at deserunt temporibus recusandae placeat similique voluptatem voluptatum tempore fuga quisquam, officiis fugit. Animi magni odio recusandae nisi.</p>
+          <div class="col-8 fw-normal">
+            <span>Costo de penalidad proveedor</span> <br>
+            <span>Costo de penalidad agencia</span>
+          </div>
+          <div class="col-4 fw-normal">
+            <span>$0 MXN</span><br>
+            <span>$0 MNX</span>
+          </div>
+          <div class="form-check m-3">
+            <input class="form-check-input"  type="checkbox" value="" id="otraCantidad"/>
+            <label class="form-check-label" for="otraCantidad">
+              Autorizado por el hotel y se tiene soporte
+            </label>
+          </div>
+          <div class="col-12 mb-3">
+            <label>Motivo de la cancelación</label>
+            <select class="form-select w-100" name="select">
+              <option value="value1">Value 1</option>
+              <option value="value2" selected>Value 2</option>
+              <option value="value3">Value 3</option>
+            </select>
+          </div>
+          <div class="text-center">
+            <button class="btn btn-primary rounded-pill text-white">Cancelar reservación</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

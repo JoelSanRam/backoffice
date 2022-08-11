@@ -1,0 +1,232 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-11 col-lg-11 offset-lg-1 col-xxl-9 offset-xxl-2 offset-md-1">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="row bg-white shadow-sm rounded mb-3">
+                        <div class="card-header bg-primary text-light mb-2">
+                            Cotizador
+                        </div>
+                        <form [formGroup]="buscadorTour" action="">
+                            <div class="col-12 mb-2">
+                                <label>Destino</label>
+                                <input type="text" [typeahead]="destinos" container="body" [typeaheadMinLength]="2"
+                                    [typeaheadAsync]="true" [typeaheadItemTemplate]="customItemTemplate"
+                                    (typeaheadOnSelect)="onSelect($event)" class class="form-control"  [ngClass]="{'is-invalid': buscadorTour.controls.d.errors && buscadorTour.controls.d.touched }"
+                                    formControlName="d" placeholder="Ingrese destino" id="" />
+                            </div>
+
+                            <ng-template #customItemTemplate let-model="item" let-index="index">
+                                {{model.label}}
+                            </ng-template>
+
+                            <div class="col-12 col-md-12 mb-2">
+                                <label for=""> Fechas</label>
+                                <div class="d-flex">
+                                    <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker
+                                        formControlName="dt" [minDate]="minDate" [bsValue]="bsValue" 
+                                        [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false, containerClass: 'theme-default' }">
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-12 mb-2">
+                                <label class="w-100" for=""> Pasajeros </label>
+                                <div class="dropdown ">
+                                    <button class="btn border form-select" type="button" data-bs-auto-close="false"
+                                        id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="far fa-user"></i> {{adultos}}
+                                        &nbsp;&nbsp; <i class="fas fa-child"></i> {{menores}}
+                                    </button>
+
+                                    <div class="dropdown-menu p-0 text-muted" aria-labelledby="dropdownMenuButton1"
+                                        style="width: 18rem; z-index: 10;">
+                                        <div class="card-header bg-primary text-white">
+                                            Pasajeros
+                                        </div>
+
+                                        <div class="px-2">
+
+                                            <div class="d-flex justify-content-between py-2">
+                                                <div class=" me-2">
+                                                    <span>Adultos</span>
+                                                </div>
+                                                <div>
+                                                    <button (click)="addRemovePerson('adultos','rm')"
+                                                        [disabled]="adultos <= 1 ? 'disabled' : ''"
+                                                        class="text-warning mx-2 p-0 btn"><i
+                                                            class="fas fa-minus-circle"></i></button>
+                                                    <span>{{adultos}}</span>
+                                                    <button (click)="addRemovePerson('adultos','add')"
+                                                        [ngClass]="adultos == 9 ? 'disabled' : ''"
+                                                        class="text-warning mx-2 p-0 btn"><i
+                                                            class="fas fa-plus-circle"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-between py-2">
+                                                <div>
+                                                    <span>Menores</span>
+                                                </div>
+                                                <div>
+                                                    <button (click)="addRemovePerson('menores','rm')"
+                                                        [disabled]="menores<= 0 ? 'disabled' : ''"
+                                                        class="text-warning mx-2 btn p-0"><i
+                                                            class="fas fa-minus-circle"></i></button>
+                                                    <span>{{menores}}</span>
+                                                    <button (click)="addRemovePerson('menores','add')"
+                                                        [disabled]="menores == 9 ? 'disabled' : ''"
+                                                        class="text-warning mx-2 btn p-0"><i
+                                                            class="fas fa-plus-circle"></i></button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center col-12 mb-2">
+                                <button (click)="submitSearchTour()"class="btn btn-sm btn-outline-primary rounded-pill ">
+                                    Buscar <i class="ml-2 bi bi-search"></i>
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="row bg-white shadow-sm rounded mb-3 ">
+                        <div class="card border-light mb-2 w-100 rounded p-0">
+                            <div class="card-header bg-primary text-light">
+                                Filtros <i class="bi bi-funnel-fill"></i>
+                            </div>
+                            <div class="card-body px-3">
+
+                                <div class="row">
+                                    <form [formGroup]="filtrosTour">
+                                        <div class="col-12">
+                                            <p>Ordenar por:</p>
+                                            <select class="form-select mb-2" formControlName="ordenar" (change)="filterByOrdenar()" name="select">
+                                                <option selected value="PRICE_ASC">Precio - Menor a mayor</option>
+                                                <option value="PRICE_DESC">Precio - Mayor a menor</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 mb-2">
+                                            <label>Proveedor</label>
+                                            <input (keyup)="filterByName()" formControlName="proveedor" type="text" class="form-control"
+                                                placeholder="Ingrese nombre de Proveedor" id="" />
+                                        </div>
+                                        <div class="col-12">
+                                            <p>Categorías:</p>
+                                            <select formControlName="categorias" class="form-select mb-2 " name="select">
+                                                <option value="value2">Todas las categorías</option>
+                                                <option [value]="categoria" *ngFor="let categoria of catFiltro">{{ categoria | categoria : categoryFilters }} {{
+                                                    last ? '' : ' ' }}</option>
+
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="mb-3 d-flex justify-content-between">
+                        <div class="text-primary">
+                            <span class="tituloServicio"><i class="fas fa-route"></i> Tours</span>
+                        </div>
+                        <div class="text-end">
+                            <p class="mb-0">Se encontrarol {{toursDisponibles.length}} resultados</p>
+                            <small class="font13">Fechas: 15/Jun/22 - 17/Jun/22 Habitaciones: 1 | adultos: 2 | menores:
+                                0</small>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="">
+                            <div class="col-md-12 ps-3">
+                                <div class="card w-100 border-0 bg-transparent" *ngIf="existParams">
+                                    <div  class="row cardTraslado bg-white mb-2 rounded-3 shadow-sm"
+                                    *ngFor="let r of toursDisponibles; let i = index">
+                                        <div class="col-md-2 p-0">
+                                            <img [src]="r.info?.url_thumb" [alt]="r.info?.url_thumb" class="w-100 h-100 rounded-3" />
+                                        </div>
+                                        <div class="col-md-10 ps-0">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <div class="card-body p-2">
+                                                        <h5 class="card-title text-primary" style="cursor: pointer"
+                                                            (click)="tourDetalle(i)">{{r.info?.nombre}}</h5>
+                                                        <span>
+                                                            <!-- <i class="fas fa-info-circle"></i> -->
+                                                            {{r.info?.destino}}
+                                                        </span> <small
+                                                            class="bg-warning px-3 text-white rounded-pill">ON
+                                                            REQUEST</small> <br>
+                                                        <span
+                                                            *ngFor="let h of r.info?.categorias; let i = index; let last = last"
+                                                            class="text-info">#{{ h | categoria : categoryFilters }} {{
+                                                            last ? '' : ', ' }}</span> <br>
+                                                        <small><i class="fas fa-user"></i> Min
+                                                            Pax: {{r.occupancyRules?.ocupmin}} | <i
+                                                                class="fas fa-arrow-circle-right"></i> Saliendo de:
+                                                            {{r.info?.destinoSalida.destino}} | <i
+                                                                class="fas fa-clock"></i> </small> <small
+                                                            *ngFor="let h of r.info?.horarios; let i = index; let last = last">Horarios:
+                                                            {{ h + (last ? '' : ', ') }} </small> <br>
+                                                        <small
+                                                            [innerHTML]="r.info?.descripcion.substring(0, 100)">...</small>
+                                                        <div class="d-flex pasajeros">
+                                                            <div><small>Adultos</small> <br>
+                                                                <small>{{ r.tarifas?.publica.adulto |
+                                                                    calculateTCD : r.tarifas?.currency :
+                                                                    r.tarifas?.divisa.currency_tc |
+                                                                    currencyFormat }}MXN</small>
+                                                            </div>
+                                                            <div><small>Menor 2-8 años</small><br>
+                                                                <small>{{ r.tarifas?.publica.infante |
+                                                                    calculateTCD : r.tarifas?.currency :
+                                                                    r.tarifas?.divisa.currency_tc |
+                                                                    currencyFormat }}MXN</small>
+                                                            </div>
+                                                            <div><small>Infantes 5-11 años</small><br>
+                                                                <small> {{ r.tarifas?.publica.menor |
+                                                                    calculateTCD : r.tarifas?.currency :
+                                                                    r.tarifas?.divisa.currency_tc |
+                                                                    currencyFormat }} MXN</small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 border-start endText">
+                                                    <div class="p-2 ">
+                                                        <div class="">
+                                                            <span>Total a pagar</span>
+                                                        </div>
+                                                        <div class="">
+
+                                                            <h5 class="card-title">$5469.50 MXN</h5>
+                                                        </div>
+                                                        <div class="w-100 ">
+                                                            <small class="w-100">Impuestos incluidos</small>
+                                                        </div>
+                                                        <div class="text-center my-2">
+                                                            <button class="btn btn-outline-primary rounded-pill"
+                                                               (click)="bookingTour(r)">
+                                                                <b>Reservar ahora</b>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

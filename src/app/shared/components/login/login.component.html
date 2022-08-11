@@ -1,0 +1,76 @@
+<section id="content-login" class="container-fluid p-0">
+  <img src="../../../assets/img/CarryOn-blanco-completo.svg" class="logo-responsivo" alt="" srcset="">
+  <p class="title-login-responsive">Carry on</p>
+  <div class="row row-form">
+    <div class="col-xs-5 col-sm-12 col-md-5 col-lg-5 col-xxl-4 content-login-image">
+      <img src="../../../assets/img/CarryOn-blanco-completo.svg" class="logo" alt="" srcset="">
+      <img src="../../../assets/img/CarryOn-blanco.svg" class="logoSuperior" alt="" srcset="">
+      <img src="../../../assets/img/login.svg" class="img-login">
+      <!-- <p class="title-login">Pay-Off</p> -->
+      <p class="subtitle-login">Portal administrativo all-in-one para mayoristas
+        de Viajes B2B.</p>
+        <div class="footerLogin d-flex justify-content-between w-90">
+          <span class="text-white">&copy; 2022</span>
+          <span class="text-white">Términos y condiciones</span>
+        </div>
+    </div>
+    <div class="align-self-center col-xs-7 col-sm-12 col-md-7 col-lg-7 col-xxl-8 row ">
+
+      <div class="col-xxl-6 col-xs-9 col-sm-12 col-lg-9 pb-3 mx-auto">
+        <div class="formularioLogin">
+          <div class="elementosFormulario">
+            <form (submit)="login()" [formGroup]="loginForm">
+              <h1 class="spanLogin fw-bold">Login</h1>
+              <p class="subtitle">Ingresa tus credenciales para obtener acceso. </p>
+              <div class="mb-4">
+                <label for="correo" class="mb-1">Usuario</label>
+                <div class="input-group mb-3">
+                  <!-- <span class="input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span> -->
+                  <input type="text" class="form-control iconoInput" placeholder="Username" aria-label="Usuario"
+                    aria-describedby="basic-addon1" formControlName="name" tabindex="1">
+                  <!--  <div *ngIf="form.name.errors" class="invalid-feedback">
+                            <div *ngIf="form.name.errors.required && loginForm.get('name').touched">El nombre es requerido</div>
+                          </div> -->
+                </div>
+              </div>
+              <div class="">
+                <div class="d-flex justify-content-between">
+                  <label for="contrasenia" class="mb-1">Password</label>
+                  <label for="contrasenia" class="recordar-pass"><a routerLink="/solicitarPassword"> ¿Olvidaste tu
+                      contraseña?</a></label>
+                </div>
+                <div class="input-group mb-3">
+                  <!-- <span class="input-group-text" id="basic-addon1"><i class="bi bi-keyboard"></i></span> -->
+                  <input type="password" class="form-control iconoInput2" placeholder="Password" aria-label="Password"
+                    aria-describedby="basic-addon1" formControlName="password" tabindex="2">
+                  <!-- <div *ngIf="form.password.errors" class="invalid-feedback">
+                            <div *ngIf="form.password.errors.required && loginForm.get('password').touched">El password es requerido</div>
+                          </div> -->
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <p class="subtitle">¿No tienes cuenta?<span class="registro">Regístrate</span> </p>
+                </div>
+                <div class="col-md-6 text-end">
+                  <button type="submit" class="btn btn-primary text-white rounded-pill px-5" [disabled]="loginForm.invalid">
+                    Iniciar Sesión
+                  </button>
+                </div>
+
+              </div>
+              <div class="col-md-12 div-principal" *ngIf="error">
+                <span class="error-title"><i class="bi bi-exclamation-circle-fill"></i> Error de inicio de sesión</span>
+                <span class="error-msg">¡{{ mensaje }}!</span>
+              </div>
+            </form>
+            <!-- cieera form -->
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div><!-- row -->
+</section><!-- container-fluid -->

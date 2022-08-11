@@ -1,0 +1,151 @@
+<div class="container-fluid">
+
+    <div class="col-md-11 col-lg-11 offset-lg-1 col-xxl-9 offset-xxl-2 offset-md-1">
+
+        <div class="row bg-white shadow-sm rounded-3 mb-5 pb-2">
+            <div class="col-12 my-2 text-primary">
+                <h3><i class="fas fa-suitcase"></i> Hotel</h3>
+            </div>
+            <div class="col-3 col-sm-6 col-md-3 mb-2">
+                <label>Destino</label>
+                <input type="text" class="form-control" placeholder="Ingrese destino" id="" />
+            </div>
+
+            <div class="col-3 col-sm-6 col-md-3 mb-2">
+                <label for=""> Fechas </label>
+                <input type="text" class="form-control " [(ngModel)]="bsRangeValue" #daterangepicker="bsDaterangepicker"
+                    bsDaterangepicker
+                    [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false, containerClass: 'theme-default' }"
+                    [minDate]="minDate">
+            </div>
+
+            <div class="col-2 col-sm-4 col-md-2 mb-2">
+                <label class="w-100" for=""> Habitaciones </label>
+                <div class="dropdown">
+                    <button class="btn border form-select" type="button" data-bs-auto-close="false"
+                        id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-bed"></i> {{numHab}}
+                        &nbsp;&nbsp;&nbsp;&nbsp; <i class="far fa-user"></i> {{personas}}
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                    </button>
+
+                    <div class="dropdown-menu p-0 text-muted" aria-labelledby="dropdownMenuButton1"
+                        style="width: 18rem; z-index: 10;">
+                        <div class="card-header bg-primary text-white">
+                            Habitaciones y pasajeros
+                        </div>
+                        <div class="d-flex justify-content-around my-3">
+                            <div>
+                                <span>Número de habitaciones</span>
+                            </div>
+                            <div class="d-flex justify-content-between w-25">
+                                <a (click)="AddRemoveHab('rm')" [ngClass]="numHab == 1 ? 'disabled' : ''"
+                                    class="text-warning"><i class="fas fa-minus-circle"></i></a>
+                                <span>{{numHab}}</span>
+                                <a (click)="AddRemoveHab('add')" [ngClass]="numHab == 8 ? 'disabled' : ''"
+                                    class="text-warning"><i class="fas fa-plus-circle"></i></a>
+                            </div>
+                        </div>
+                        <div *ngFor="let item of habitaciones; index as i" class="px-2">
+                            <h6>Habitación {{i+1}}</h6>
+                            <div class="d-flex py-2">
+                                <div class="d-flex justify-content-between w-50 me-2">
+                                    <span>Adultos</span>
+                                    <a (click)="addRemoveAdulto(i,'rm')"
+                                        [ngClass]=" item.adultos == 1 ? 'disabled' : ''" class="text-warning"><i
+                                            class="fas fa-minus-circle"></i></a>
+                                    <span>{{ item.adultos}}</span>
+                                    <a (click)="addRemoveAdulto(i,'add')"
+                                        [ngClass]=" item.adultos == 5 ? 'disabled' : ''" class="text-warning"><i
+                                            class="fas fa-plus-circle"></i></a>
+                                </div>
+                                <div class="d-flex justify-content-between w-50">
+                                    <span>Menores</span>
+                                    <a (click)="addRemoveMenor(item,'rm')"
+                                        [ngClass]="item.edadmenores.length == 0 ? 'disabled' : ''"
+                                        class="text-warning"><i class="fas fa-minus-circle"></i></a>
+                                    <span>{{item.edadmenores.length}}</span>
+                                    <a (click)="addRemoveMenor(item,'add')"
+                                        [ngClass]="item.edadmenores.length == 3 ? 'disabled' : ''"
+                                        class="text-warning"><i class="fas fa-plus-circle"></i></a>
+                                </div>
+                            </div>
+                            <div *ngIf="item.edadmenores.length > 0">
+                                <div class="d-flex my-2 justify-content-end"
+                                            *ngFor="let menor of item.edadmenores; index as e">
+                                            <span class="m-auto">Edad del menor {{e+1}}</span>
+                                            <select (change)="edadMenor(i,e,$event.target.value)" class="form-select selectMenores">
+                                                <option [selected]="ed == menor.edad" *ngFor="let ed of edadMenores" value="{{ed}}">{{ed}}</option>
+                                            </select>
+                                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-2 col-sm-4 col-md-2 mb-2">
+                <label>Nacionalidad</label>
+                <select class="form-select w-100" name="select">
+                    <option value="value1">Value 1</option>
+                    <option value="value2" selected>Value 2</option>
+                    <option value="value3">Value 3</option>
+                </select>
+            </div>
+
+            <div class="text-center col-2 col-sm-4 col-md-2 mb-2 mt-4 d-flex align-items-center justify-content-center">
+                <button class="btn btn-sm btn-primary text-white rounded-pill " routerLink="/resultadosbusqueda">
+                    <i class="bi bi-search"></i>
+                    Buscar
+                </button>
+            </div>
+
+            <div class="collapse mb-2" id="opcionesAvanzadas">
+               
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                        <label class="form-check-label" for="inlineCheckbox1">Permitir tarifas de paquete</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                        <label class="form-check-label" for="inlineCheckbox2">Outlet</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                        <label class="form-check-label" for="inlineCheckbox3">Ver producto propio</label>
+                      </div>
+            </div>
+            <div class="col-3">
+                <button (click)="chevronChange()" class="btn " type="button" data-bs-toggle="collapse"
+                    data-bs-target="#opcionesAvanzadas" aria-expanded="false" aria-controls="opcionesAvanzadas">
+                    Opciones avanzadas
+                    <!-- <i [ngClass]="chevron == true ? 'd-none' : ''" class="fas fa-chevron-down"></i><i [ngClass]="chevron == false ? 'd-none' : ''" class="fas fa-chevron-up"></i> -->
+                </button>
+                <button (click)="chevronChange()" data-bs-toggle="collapse" data-bs-target="#opcionesAvanzadas"
+                    aria-expanded="false" aria-controls="opcionesAvanzadas" *ngIf="chevron" class="btn "><i
+                        class="fas fa-chevron-down"></i></button>
+                <button (click)="chevronChange()" data-bs-toggle="collapse" data-bs-target="#opcionesAvanzadas"
+                    aria-expanded="false" aria-controls="opcionesAvanzadas" *ngIf="!chevron" class="btn "><i
+                        class="fas fa-chevron-up"></i></button>
+            </div>
+        </div>
+        <app-banner></app-banner>
+        <div class="row p-0 mb-3 w-100">
+            <h3 class="text-primary">Flyers</h3>
+        </div>
+        <div class="mb-5">
+            <app-flyers class="row" [flyers]="flyers"></app-flyers>
+        </div>
+
+        <div class="row mb-5 p-0">
+            <app-carousel [options]="customOptions" [imagenes]="imgArray"></app-carousel>
+            <div class=" pb-3 text-center">
+                <input type="submit" class="btn btn-outline-primary rounded-pill mt-3"
+                    value="Ver todas las publicaciones">
+            </div>
+        </div>
+        <app-publicidad></app-publicidad>
+    </div>
+
+</div>

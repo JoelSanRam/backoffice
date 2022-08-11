@@ -1,0 +1,495 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <form [formGroup]="trasladosForm" (ngSubmit)="onBuscarTraslado()">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="row bg-white shadow-sm rounded mb-3">
+                            <div class="card-header bg-primary text-light mb-2">
+                                Cotizador
+                            </div>
+                            <div class="col-md-12 d-flex ">
+                                <div class="form-check me-2">
+                                    <input class="form-check-input" (change)="onChanceRadio($event.target.value)"
+                                        value="one_way" type="radio" formControlName="tipo_viaje" name="tipo_viaje">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        Solo ida
+                                    </label>
+                                </div>
+                                <div class="form-check mx-2">
+                                    <input class="form-check-input" (change)="onChanceRadio($event.target.value)"
+                                        value="round_trip" formControlName="tipo_viaje" type="radio" name="tipo_viaje">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        Redondo
+                                    </label>
+                                </div>
+
+                            </div>
+                            <div class="col-12 mb-2">
+                                <label>Tipo de viaje</label>
+                                <select class="form-select" name="select" formControlName="tipo_traslado"
+                                    (change)="changeTipoTraslado($event.target.value)">
+                                    <option value="AH">Aeropuerto-Hotel</option>
+                                    <option value="HA">Hotel-Aeropuerto</option>
+                                </select>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <label>Destino</label>
+                                <select class="form-select" name="select" formControlName="lugar"
+                                    (change)="getAirports($event.target.value)">
+                                    <option disabled selected value="">Selecciona un destino*</option>
+                                    <option [value]="d.idDestino" *ngFor="let d of destinos">{{d.destino}}</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12 mb-2">
+                                <label>Aereopuerto</label>
+                                <select class="form-select" name="select" formControlName="aeropuerto">
+                                    <option disabled value="">Seleccionar aeropuerto</option>
+                                    <option *ngFor="let a of aeropuertos" [value]="a.idAeropuerto">{{ a.nombre }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-12 mb-2">
+                                <label>Hotel</label>
+                                <input type="text" ngx-google-places-autocomplete #placesRef="ngx-places"
+                                     class="form-control" placeholder="Ingrese destino" id=""
+                                    formControlName="hotelLabel" (onAddressChange)="handleAddressChange($event)" />
+                            </div>
+
+                            <div class="col-12 col-md-12 mb-2">
+                                <label for=""> Fechas</label>
+                                <div class="d-flex">
+                                    <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker
+                                        [minDate]="minDate" formControlName="fechaServicio"
+                                        *ngIf="round_trip === 'one_way'"
+                                        [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false, containerClass: 'theme-default' }">
+                                    <input type="text" class="form-control" *ngIf="round_trip === 'round_trip'"
+                                        #daterangepicker="bsDaterangepicker" bsDaterangepicker
+                                        formControlName="fechaRegreso"
+                                        [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false, containerClass: 'theme-default' }"
+                                        [minDate]="minDate">
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-12 mb-2">
+                                <label class="w-100" for=""> Habitaciones </label>
+                                <div class="dropdown ">
+                                    <button class="btn border form-select w-100" type="button"
+                                        data-bs-auto-close="false" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <i class="far fa-user"></i> {{adultos}}
+                                        &nbsp;&nbsp; <i class="fas fa-child"></i> {{menores}}
+                                    </button>
+
+                                    <div class="dropdown-menu p-0 text-muted" aria-labelledby="dropdownMenuButton1"
+                                        style="width: 18rem; z-index: 10;">
+                                        <div class="card-header bg-primary text-white">
+                                            Pasajeros
+                                        </div>
+
+                                        <div class="px-2">
+
+                                            <div class="d-flex justify-content-between py-2">
+                                                <div class=" me-2">
+                                                    <span>Adultos</span>
+                                                </div>
+                                                <div>
+                                                    <button (click)="addRemovePerson('adultos','rm')"
+                                                        [disabled]="adultos <= 1 ? 'disabled' : ''"
+                                                        class="text-warning mx-2 p-0 btn"><i
+                                                            class="fas fa-minus-circle"></i></button>
+                                                    <span>{{adultos}}</span>
+                                                    <button (click)="addRemovePerson('adultos','add')"
+                                                        [ngClass]="adultos == 9 ? 'disabled' : ''"
+                                                        class="text-warning mx-2 p-0 btn"><i
+                                                            class="fas fa-plus-circle"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-between py-2">
+                                                <div>
+                                                    <span>Menores</span>
+                                                </div>
+                                                <div>
+                                                    <button (click)="addRemovePerson('menores','rm')"
+                                                        [disabled]="menores<= 0 ? 'disabled' : ''"
+                                                        class="text-warning mx-2 btn p-0"><i
+                                                            class="fas fa-minus-circle"></i></button>
+                                                    <span>{{menores}}</span>
+                                                    <button (click)="addRemovePerson('menores','add')"
+                                                        [disabled]="menores == 9 ? 'disabled' : ''"
+                                                        class="text-warning mx-2 btn p-0"><i
+                                                            class="fas fa-plus-circle"></i></button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center col-12 mb-2">
+                                <button class="btn btn-sm btn-outline-primary rounded-pill ">
+                                    Buscar <i class="ml-2 bi bi-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row bg-white shadow-sm rounded mb-3 ">
+                            <div class="card border-light mb-2 w-100 rounded p-0">
+                                <div class="card-header bg-primary text-light">
+                                    Filtros <i class="bi bi-funnel-fill"></i>
+                                </div>
+                                <div class="card-body px-3">
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p>Ordenar por:</p>
+                                            <select class="form-select mb-2 " name="select">
+                                                <option value="value1" selected disabled>Recomendados</option>
+                                                <option value="value2">Value 2</option>
+                                                <option value="value3">Value 3</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p>
+                                                <button class="btn form-select text-start" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#escalas"
+                                                    aria-expanded="false" aria-controls="escalas">
+                                                    Tipo de transporte
+                                                </button>
+                                            </p>
+                                            <div class="collapse" id="escalas">
+                                                <div class="card card-body">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value=""
+                                                            id="flexCheckDefault">
+                                                        <label class="form-check-label" for="flexCheckDefault"> Público
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value=""
+                                                            id="flexCheckDefault">
+                                                        <label class="form-check-label" for="flexCheckDefault"> Privado
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="mb-3 d-flex justify-content-between">
+                            <div class="text-primary">
+                                <span class="tituloServicio"><i class="fas fa-bus"></i> Traslado</span>
+                            </div>
+                            <div class="text-end">
+                                <p class="mb-0">Se encontraron | {{encontrados}} resultados</p>
+                                <small class="font13">Fechas: {{this.trasladosForm.value.fechaServicio}} - {{this.trasladosForm.value.fechaRegreso[1]}} Habitaciones: 1 | adultos: {{adultos}} |
+                                    menores: {{menores}}</small>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="0 < traslados_compartidos?.length ">
+                            <div class="col-12">
+                                <h5 class="title-traslados">COMPARTIDO</h5>
+                                <p>En este servicio usted podrá compartir su traslado hacia su hotel con otras personas
+                                    que llegan al aeropuerto al mismo tiempo que usted a un costo económico.</p>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="" *ngFor="let tc of traslados_compartidos; let i = index;">
+                                <div class="col-md-12">
+                                    <div class="card w-100">
+                                        <div class="row cardTraslado">
+                                            <div class="col-md-3 pe-0">
+                                                <div>
+                                                    <img src="{{ tc.info.url_thumb}}"
+                                                        class="card-img img-fluid imgResultados" onerror="this.src='//pbs.twimg.com/profile_images/600060188872155136/st4Sp6Aw.jpg';" alt=""/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9 ps-0">
+                                                <div class="row">
+                                                    <div class="col-md-7">
+                                                        <div class="card-body p-2">
+                                                            <h5 class="card-title text-primary">{{tc.info.nombre}}</h5>
+                                                            <span><i class="fas fa-info-circle"></i> Aereopuerto - Hotel
+                                                                -
+                                                                Aereopuerto</span> <br>
+                                                            <small><i class="fas fa-user"></i> Min
+                                                                Pax: {{tc.occupancyRules.ocupmin}} | <i class="fas fa-users"></i> Max Pax: {{tc.occupancyRules.ocupmax}} | <i
+                                                                    class="fas fa-arrow-alt-circle-right"></i> Saliendo
+                                                                de
+                                                                Cancún Q.R. México</small> <br>
+                                                            <div class="d-flex pasajeros">
+                                                                <div><small>Adultos</small> <br>
+                                                                    <!-- <p class="m-0 text-1" [innerHTML]="priceSince(tc.tarifas.publica.adulto,user.currency,tc.tarifas.divisa.currency_tc)"></p> -->
+                                                                </div>
+                                                                <div><small>Menor 2-8 años</small><br>
+                                                                    <small>$1300.00 MXN</small>
+                                                                </div>
+                                                                <div><small>Vehículos</small><br>
+                                                                    <small>2</small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5 border-start endText">
+                                                        <div class="p-2 ">
+                                                            <div class="">
+                                                                <span>Total a pagar</span>
+                                                            </div>
+                                                            <div class="">
+
+                                                                <h5 class="card-title">$5469.50 MXN</h5>
+                                                            </div>
+                                                            <div class="w-100 ">
+                                                                <small class="w-100">Impuestos incluidos</small>
+                                                            </div>
+                                                            <div class="text-center my-2" >
+                                                                <button class="btn btn-outline-primary rounded-pill"
+                                                                (click)="gotoBook(tc.book)">
+                                                                    <b>Reservar ahora</b>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="collapse" id="collapseExample">
+                                        <div class="">
+                                            <div class="d-flex bg-white ml-0 mb-3 mr-0 py-2">
+                                                <div class="col-md-1">
+                                                    <img src="https://w7.pngwing.com/pngs/741/68/png-transparent-user-computer-icons-user-miscellaneous-cdr-rectangle-thumbnail.png"
+                                                        height="45" alt="" srcset="">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>Habitación</h6>
+                                                    <small><i class="fas fa-info-circle text-success"></i>Políticas de
+                                                        cancelación</small>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>ROOM ONLY</h6>
+                                                    <small><i class="fas fa-exclamation-circle text-warning"></i>Sujeto
+                                                        a
+                                                        disponibilidad</small>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <img src="https://w7.pngwing.com/pngs/741/68/png-transparent-user-computer-icons-user-miscellaneous-cdr-rectangle-thumbnail.png"
+                                                        height="45" alt="" srcset="">
+
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <h6>$12,000.00MXN</h6>
+                                                    <small class="text-primary"><s>$30,000.00MXN</s></small>
+                                                </div>
+                                                <div class="col-md-2 d-flex justify-content-center align-items-center">
+                                                    <input type="submit"
+                                                        class="btn btn-sm me-3 btn-outline-secondary rounded-pill"
+                                                        value="Reservar"> <i
+                                                        class="fas fa-folder-plus fa-2x text-success"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="collapse" id="collapseExample2">
+                                        <div class="">
+                                            <div class="d-flex bg-white ml-0 mb-3 mr-0 py-2">
+                                                <div class="col-md-1">
+                                                    <img src="https://w7.pngwing.com/pngs/741/68/png-transparent-user-computer-icons-user-miscellaneous-cdr-rectangle-thumbnail.png"
+                                                        height="45" alt="" srcset="">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>Habitación</h6>
+                                                    <small><i class="fas fa-info-circle text-success"></i>Políticas de
+                                                        cancelación</small>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>ROOM ONLY</h6>
+                                                    <small><i class="fas fa-exclamation-circle text-warning"></i>Sujeto
+                                                        a
+                                                        disponibilidad</small>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <img src="https://w7.pngwing.com/pngs/741/68/png-transparent-user-computer-icons-user-miscellaneous-cdr-rectangle-thumbnail.png"
+                                                        height="45" alt="" srcset="">
+
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <h6>$12,000.00MXN</h6>
+                                                    <small class="text-primary"><s>$30,000.00MXN</s></small>
+                                                </div>
+                                                <div class="col-md-2 d-flex justify-content-center align-items-center">
+                                                    <input type="submit"
+                                                        class="btn btn-sm me-3  btn-outline-secondary rounded-pill"
+                                                        value="Reservar"> <i
+                                                        class="fas fa-folder-plus fa-2x text-success"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="0 < traslados_privados?.length ">
+                            <div class="col-12">
+                                <h5 class="title-traslados">COMPARTIDO</h5>
+                                <p>En este servicio usted podrá compartir su traslado hacia su hotel con otras personas
+                                    que llegan al aeropuerto al mismo tiempo que usted a un costo económico.</p>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="" *ngFor="let tp of traslados_privados; let i = index;">
+                                <div class="col-md-12">
+                                    <div class="card w-100">
+                                        <div class="row cardTraslado">
+                                            <div class="col-md-3 pe-0">
+                                                <div>
+                                                    <img src="{{ tp.info.url_thumb}}"
+                                                        class="card-img img-fluid imgResultados" onerror="this.src='//pbs.twimg.com/profile_images/600060188872155136/st4Sp6Aw.jpg';" alt=""/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9 ps-0">
+                                                <div class="row">
+                                                    <div class="col-md-7">
+                                                        <div class="card-body p-2">
+                                                            <h5 class="card-title text-primary">{{tc.info.nombre}}</h5>
+                                                            <span><i class="fas fa-info-circle"></i> Aereopuerto - Hotel
+                                                                -
+                                                                Aereopuerto</span> <br>
+                                                            <small><i class="fas fa-user"></i> Min
+                                                                Pax: 1 | <i class="fas fa-users"></i> Max Pax: 8 | <i
+                                                                    class="fas fa-arrow-alt-circle-right"></i> Saliendo
+                                                                de
+                                                                Cancún Q.R. México</small> <br>
+                                                            <div class="d-flex pasajeros">
+                                                                <div><small>Adultos</small> <br>
+                                                                    <small>$1300.00 MXN</small>
+                                                                </div>
+                                                                <div><small>Menor 2-8 años</small><br>
+                                                                    <small>$1300.00 MXN</small>
+                                                                </div>
+                                                                <div><small>Vehículos</small><br>
+                                                                    <small>2</small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5 border-start endText">
+                                                        <div class="p-2 ">
+                                                            <div class="">
+                                                                <span>Total a pagar</span>
+                                                            </div>
+                                                            <div class="">
+
+                                                                <h5 class="card-title">$5469.50 MXN</h5>
+                                                            </div>
+                                                            <div class="w-100 ">
+                                                                <small class="w-100">Impuestos incluidos</small>
+                                                            </div>
+                                                            <div class="text-center my-2" >
+                                                                <button class="btn btn-outline-primary rounded-pill"
+                                                                    routerLink="/traslado/booking-traslado">
+                                                                    <b>Reservar ahora</b>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="collapse" id="collapseExample">
+                                        <div class="">
+                                            <div class="d-flex bg-white ml-0 mb-3 mr-0 py-2">
+                                                <div class="col-md-1">
+                                                    <img src="https://w7.pngwing.com/pngs/741/68/png-transparent-user-computer-icons-user-miscellaneous-cdr-rectangle-thumbnail.png"
+                                                        height="45" alt="" srcset="">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>Habitación</h6>
+                                                    <small><i class="fas fa-info-circle text-success"></i>Políticas de
+                                                        cancelación</small>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>ROOM ONLY</h6>
+                                                    <small><i class="fas fa-exclamation-circle text-warning"></i>Sujeto
+                                                        a
+                                                        disponibilidad</small>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <img src="https://w7.pngwing.com/pngs/741/68/png-transparent-user-computer-icons-user-miscellaneous-cdr-rectangle-thumbnail.png"
+                                                        height="45" alt="" srcset="">
+
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <h6>$12,000.00MXN</h6>
+                                                    <small class="text-primary"><s>$30,000.00MXN</s></small>
+                                                </div>
+                                                <div class="col-md-2 d-flex justify-content-center align-items-center">
+                                                    <input type="submit"
+                                                        class="btn btn-sm me-3 btn-outline-secondary rounded-pill"
+                                                        value="Reservar"> <i
+                                                        class="fas fa-folder-plus fa-2x text-success"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="collapse" id="collapseExample2">
+                                        <div class="">
+                                            <div class="d-flex bg-white ml-0 mb-3 mr-0 py-2">
+                                                <div class="col-md-1">
+                                                    <img src="https://w7.pngwing.com/pngs/741/68/png-transparent-user-computer-icons-user-miscellaneous-cdr-rectangle-thumbnail.png"
+                                                        height="45" alt="" srcset="">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>Habitación</h6>
+                                                    <small><i class="fas fa-info-circle text-success"></i>Políticas de
+                                                        cancelación</small>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <h6>ROOM ONLY</h6>
+                                                    <small><i class="fas fa-exclamation-circle text-warning"></i>Sujeto
+                                                        a
+                                                        disponibilidad</small>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <img src="https://w7.pngwing.com/pngs/741/68/png-transparent-user-computer-icons-user-miscellaneous-cdr-rectangle-thumbnail.png"
+                                                        height="45" alt="" srcset="">
+
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <h6>$12,000.00MXN</h6>
+                                                    <small class="text-primary"><s>$30,000.00MXN</s></small>
+                                                </div>
+                                                <div class="col-md-2 d-flex justify-content-center align-items-center">
+                                                    <input type="submit"
+                                                        class="btn btn-sm me-3  btn-outline-secondary rounded-pill"
+                                                        value="Reservar"> <i
+                                                        class="fas fa-folder-plus fa-2x text-success"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

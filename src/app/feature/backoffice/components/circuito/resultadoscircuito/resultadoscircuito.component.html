@@ -1,0 +1,223 @@
+<div class="container-fluid">
+   <div class="row">
+      <div class="col-md-11 col-lg-11 offset-lg-1 col-xxl-9 offset-xxl-2 offset-md-1">
+         <div class="row">
+            <div class="col-md-3">
+               <div class="row bg-white shadow-sm rounded mb-3">
+                  <div class="card-header bg-primary text-light mb-2">
+                     Cotizador
+                  </div>
+                  <form [formGroup]="buscadorCircuito">
+                     <div class="col-12 mb-2">
+                        <label>Destino</label>
+                        <input formControlName="d" [typeahead]="destinos" container="body" [typeaheadMinLength]="2"
+                           [typeaheadAsync]="true" [typeaheadItemTemplate]="customItemTemplate"
+                           (typeaheadOnSelect)="onSelect($event)" type="text" class="form-control"
+                           placeholder="Ingrese destino" id="" />
+                     </div>
+
+                     <ng-template #customItemTemplate let-model="item" let-index="index">
+                        <i class="fas" [ngClass]="setIconClass(model)" aria-hidden="true"></i>
+                        {{model.label}}
+                     </ng-template>
+
+                     <div class="col-12 col-md-12 mb-2">
+                        <label for=""> Fechas</label>
+                        <div class="d-flex">
+                           <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker
+                              [minDate]="minDate" [bsValue]="bsValue" formControlName="dt"
+                              [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false, containerClass: 'theme-default' }">
+                        </div>
+                     </div>
+
+
+                     <div class="col-12 col-md-12 mb-2">
+                        <label class="w-100" for=""> Pasajeros </label>
+                        <div class="dropdown">
+                           <button class="btn border form-select w-100" type="button" data-bs-auto-close="false"
+                              id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="fas fa-bed"></i> {{numHab}}
+                              &nbsp;&nbsp;&nbsp;&nbsp; <i class="far fa-user"></i> {{personas}}
+                              &nbsp;&nbsp;&nbsp;&nbsp;
+                           </button>
+
+                           <div class="dropdown-menu p-0 text-muted" aria-labelledby="dropdownMenuButton1"
+                              style="width: 18rem; z-index: 10;">
+                              <div class="card-header bg-primary text-white">
+                                 Habitaciones y pasajeros
+                              </div>
+                              <div class="d-flex justify-content-around my-3">
+                                 <div>
+                                    <span>Número de habitaciones</span>
+                                 </div>
+                                 <div class="d-flex justify-content-between w-25">
+                                    <a (click)="AddRemoveHab('rm')" [ngClass]="numHab == 1 ? 'disabled' : ''"
+                                       class="text-warning"><i class="fas fa-minus-circle"></i></a>
+                                    <span>{{numHab}}</span>
+                                    <a (click)="AddRemoveHab('add')" [ngClass]="numHab == 8 ? 'disabled' : ''"
+                                       class="text-warning"><i class="fas fa-plus-circle"></i></a>
+                                 </div>
+                              </div>
+                              <div *ngFor="let item of habitaciones; index as i" class="px-2">
+                                 <h6>Habitación {{i+1}}</h6>
+                                 <div class="d-flex py-2">
+                                    <div class="d-flex justify-content-between w-50 me-2">
+                                       <span>Adultos</span>
+                                       <a (click)="addRemoveAdulto(i,'rm')"
+                                          [ngClass]=" item.adultos == 1 ? 'disabled' : ''" class="text-warning"><i
+                                             class="fas fa-minus-circle"></i></a>
+                                       <span>{{ item.adultos}}</span>
+                                       <a (click)="addRemoveAdulto(i,'add')"
+                                          [ngClass]=" item.adultos == 5 ? 'disabled' : ''" class="text-warning"><i
+                                             class="fas fa-plus-circle"></i></a>
+                                    </div>
+                                    <div class="d-flex justify-content-between w-50">
+                                       <span>Menores</span>
+                                       <a (click)="addRemoveMenor(item,'rm')"
+                                          [ngClass]="item.edadmenores.length == 0 ? 'disabled' : ''"
+                                          class="text-warning"><i class="fas fa-minus-circle"></i></a>
+                                       <span>{{item.edadmenores.length}}</span>
+                                       <a (click)="addRemoveMenor(item,'add')"
+                                          [ngClass]="item.edadmenores.length == 3 ? 'disabled' : ''"
+                                          class="text-warning"><i class="fas fa-plus-circle"></i></a>
+                                    </div>
+                                 </div>
+                                 <div *ngIf="item.edadmenores.length > 0">
+                                    <div class="d-flex my-2 justify-content-end"
+                                       *ngFor="let menor of item.edadmenores; index as e">
+                                       <span class="me-2">Edad del menor {{e+1}}</span>
+                                       <select (change)="edadMenor(i,e,$event.target.value)" class="form-select selectMenores">
+                                          <option [selected]="ed == menor.edad" *ngFor="let ed of edadMenores" value="{{ed}}">{{ed}}</option>
+                                      </select>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="text-center col-12 mb-2">
+                        <button (click)="submitSearchCircuito()"class="btn btn-sm btn-outline-primary rounded-pill ">
+                           Buscar <i class="ml-2 bi bi-search"></i>
+                        </button>
+                     </div>
+                  </form>
+
+               </div>
+               <div class="row bg-white shadow-sm rounded mb-3 ">
+                  <div class="card border-light mb-2 w-100 rounded p-0">
+                     <div class="card-header bg-primary text-light">
+                        Filtros <i class="bi bi-funnel-fill"></i>
+                     </div>
+                     <div class="card-body px-3">
+
+                        <div class="row">
+                           <form [formGroup]="filtrosCircuito">
+                              <div class="col-12">
+                                 <p>Ordenar por:</p>
+                                 <select class="form-select mb-2" formControlName="ordenar" (change)="orderByPrice()"
+                                    name="select">
+                                    <option selected value="PRICE_ASC">Precio - Menor a mayor</option>
+                                    <option value="PRICE_DESC">Precio - Mayor a menor</option>
+                                 </select>
+                              </div>
+                              <div class="col-12 mb-2">
+                                 <label>Proveedor</label>
+                                 <input type="text" class="form-control" placeholder="Ingrese nombre de Proveedor"
+                                    id="" />
+                              </div>
+                              <div class="col-12">
+                                 <p>Categorías:</p>
+                                 <select class="form-select mb-2 " name="select">
+                                    <option [value]="cat.categoria_codigo" *ngFor="let cat of catFiltro">{{cat.name}}</option>
+                                 </select>
+                              </div>
+                           </form>
+
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-9">
+               <div class="mb-3 d-flex justify-content-between">
+                  <div class="text-primary">
+                     <span class="tituloServicio"><i class="fas fa-route"></i> Circuito</span>
+                  </div>
+                  <div class="text-end">
+                     <p class="mb-0">Se encontraron {{circuitosDisponibles.length}} resultados</p>
+                     <small class="font13">Fechas: 15/Jun/22 - 17/Jun/22 Habitaciones: 1 | adultos: 2 | menores:
+                        0</small>
+                  </div>
+               </div>
+               <div class="mb-3">
+                  <div class="">
+                     <div class="col-md-12 ps-3">
+                        <div class="card w-100 border-0" style="background-color: #F0F0F0;">
+                           <div class="row cardTraslado bg-white mb-2 rounded-3 shadow-sm"
+                              *ngFor="let item of circuitosDisponibles; let i = index;">
+                              <div class="col-md-2 p-0">
+                                 <img [src]="item.info.url_thumb" (error)="errorImg($event)" class="w-100 h-100 rounded-3" alt="..." />
+                              </div>
+                              <div class="col-md-10 ps-0">
+                                 <div class="row">
+                                    <div class="col-md-8 ps-4">
+                                       <div class="card-body p-2">
+                                          <h5 class="card-title text-primary" (click)="detalleTour(item.info.url_page)" style="cursor: pointer;">{{item.info.nombre}}</h5>
+                                          <span><i
+                                                class="fas fa-map-marker-alt text-info me-2"></i>{{item.info.destinoLlegada.destino}}</span>
+                                          <small class="bg-warning px-3 mx-2 text-white rounded-pill">ON
+                                             REQUEST</small>
+                                          <!-- <small class="bg-success px-3  text-white rounded-pill">AZA
+                                             MX</small> --> <br>
+                                          <span class="text-info me-2" *ngFor="let cat of catFiltro">#
+                                             {{cat.name}}</span> <br>
+                                          <small><i class="fas fa-user"></i> Min
+                                             Pax: {{item.occupancyRules.ocupmin}} | <i
+                                                class="fas fa-arrow-circle-right"></i> Saliendo
+                                             de: {{item.info.destinoSalida.destino}} | <i class="far fa-calendar"></i>
+                                             Duración: {{item.info.duracion}} </small>
+                                          <!-- <small><i class="fas fa-calendar"></i> Horarios:
+                                                8:30 a.m.</small> --> <br>
+                                          <small [innerHTML]="item.info.descripcion"></small>
+                                          <div class="d-flex pasajeros">
+                                             <div><small>Habitación DBL</small> <br>
+                                                <small>{{item.total.publico_currency | currency}} MXN</small>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="col-md-4 border-start endText">
+                                       <div class="card-body p-2">
+                                          <div class="">
+                                             <span>Total a pagar</span>
+                                          </div>
+                                          <div class="">
+
+                                             <h5 class="card-title">{{item.total.publico_currency | currency}} MXN</h5>
+                                          </div>
+                                          <div class="w-100">
+                                             <small class="w-100">Impuestos incluidos</small>
+                                          </div>
+                                          <div class="text-center my-2">
+                                             <button class="btn btn-outline-primary rounded-pill" (click)="bookingCircuito(item)">
+                                                <b>Reservar ahora</b>
+                                             </button>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+
+            </div>
+
+         </div>
+      </div>
+   </div>
+</div>

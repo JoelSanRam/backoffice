@@ -1,0 +1,165 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-11 col-lg-11 offset-lg-1 col-xxl-9 offset-xxl-2 offset-md-1">
+            <div class="row p-0 mb-3 w-100">
+                <h4 class="fst-italic text-primary">Grupos</h4>
+            </div>
+            <div class="float-end mb-3 w-100">
+                <button routerLink="/grupos/cotizar"
+                    class="btn btn-outline-success float-end d-block rounded-pill">Cotizar</button>
+            </div>
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-hover bg-white rounded-3 shadow-sm p-0 text-center">
+                        <thead class="bg-primary text-white">
+                            <tr>
+                                <th scope="col">Folio</th>
+                                <th scope="col">Cotización</th>
+                                <th scope="col">Fecha de cotización</th>
+                                <th scope="col">Última actualización</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let cot of cotizaciones; index as i" class="align-middle">
+                                <th scope="row">{{cot?.folio}}</th>
+                                <td>
+                                    <span>{{cot.hotel}}</span><br>
+                                    <small>{{cot.region}}</small>
+                                </td>
+                                <td>{{cot.creacion}}</td>
+                                <td>{{cot.actualizacion}}</td>
+                                <td>
+                                    <a (click)="getDetalle(i)"><i class="fas fa-info-circle text-info me-3"
+                                            data-bs-toggle="modal" data-bs-target="#info"></i></a>
+                                    <a (click)="getMensajes(cot.folio, i)" data-bs-toggle="modal"
+                                        data-bs-target="#mensajes"><i class="fas fa-comment-alt text-primary"></i></a>
+
+                                </td>
+                            </tr>
+                            <!-- <pagination [boundaryLinks]="true" (pageChanged)="pageChanged($event)"
+                                [totalItems]="cotizaciones.length" previousText="&lsaquo;" nextText="&rsaquo;"
+                                firstText="&laquo;" lastText="&raquo;">
+                            </pagination> -->
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="cotizaciones" class="modal fade" id="info" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Cotización {{detallesCotizacion.folio}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5 class="text-primary fw-bold">Detalles</h5>
+                <div class="row">
+                    <div class="col-6"><span>Hotel: </span></div>
+                    <div class="col-6">{{detallesCotizacion.hotel}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6"><span>Fechas tentativas: </span></div>
+                    <div class="col-6"></div>
+                </div>
+                <div class="row my-3" *ngFor="let f of detallesCotizacion.JSON?.fechas">
+                    <div class="col-6">
+                        <h6 class="mb-0">Check In</h6> <span>{{f.finicio}}</span>
+                    </div>
+                    <div class="col-6">
+                        <h6 class="mb-0">Check out</h6> <span>{{f.ffinal}}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6"><span>No. habitaciones: </span></div>
+                    <div class="col-6">{{detallesCotizacion.JSON?.nhab}}</div>
+                </div>
+                <div class="row" *ngFor="let o of detallesCotizacion.JSON?.tipoHabs">
+                    <div class="col-6"><span>Tipo de ocupación: </span></div>
+                    <div class="col-6">{{ o.tipo }}</div>
+                </div>
+                <h5 class="text-primary fw-bold mt-3">Otros detalles</h5>
+                <div class="row">
+                    <div class="col-6"><span>Tipo de grupo: </span></div>
+                    <div class="col-6">{{detallesCotizacion.JSON?.tipoGrupo}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6"><span>Plan de alimentos: </span></div>
+                    <div class="col-6">{{detallesCotizacion.JSON?.planes}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6"><span>Menores: </span></div>
+                    <div class="col-6">{{detallesCotizacion.JSON?.menores}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6"><span>Observaciones: </span></div>
+                    <div class="col-6">{{detallesCotizacion.JSON?.obser}}</div>
+                </div>
+                <h5 class="text-primary fw-bold mt-3">Evento</h5>
+                <div class="row">
+                    <div class="col-6"><span>Tipo de evento: </span></div>
+                    <div class="col-6">{{detallesCotizacion.JSON?.evento.tipoEvento}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6"><span>No. personas: </span></div>
+                    <div class="col-6">{{detallesCotizacion.JSON?.evento.nPer}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6"><span>Día: </span></div>
+                    <div class="col-6">{{detallesCotizacion.JSON?.evento.dia}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6"><span>Hora: </span></div>
+                    <div class="col-6">{{detallesCotizacion.JSON?.evento.hora}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6"><span>Duración: </span></div>
+                    <div class="col-6">{{detallesCotizacion.JSON?.evento.duracion}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6"><span>Servicios: </span></div>
+                    <div class="col-6"><span
+                            *ngFor="let item of detallesCotizacion.JSON?.evento.servicios; let last = last">{{ item +
+                            (last ? '' : ', ') }}</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="cotizaciones" class="modal fade" id="mensajes" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Cotización {{folioMensaje}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row text-center">
+                    <span class="d-block mx-auto">{{fechaMensaje[0]}}</span>
+                </div>
+                <div class="row">
+                    <div class="w-100" *ngFor="let men of mensajesCotizacion; let i as index">
+                        <div class=" w-75 " [ngClass]="men.nomagente ? 'text-end float-end' : ''">
+                            <h6 *ngIf="men.nomagente">{{men.nomagente}}</h6>
+                            <h6 *ngIf="men.nomejecutivo">{{men.nomejecutivo}}</h6>
+                            <p class="mb-0 border-bottom" [innerHTML]="men.mensaje"></p>
+                            <small>{{men.prueba}}</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input [(ngModel)]="mensaje" type="text" class="form-control border-end-0" placeholder="Escribe tu mensaje aquí">
+                    <button (click)="sendMensaje(mensaje)" class="input-group-text bg-white"><i class="fas fa-level-down-alt"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

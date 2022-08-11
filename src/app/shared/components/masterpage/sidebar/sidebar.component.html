@@ -1,0 +1,347 @@
+<div  class="l-navbar menuResponsive" [ngClass]="shown ? 'show' : ''" id="nav-bar">
+  <nav class="nav" style="overflow-y: auto">
+    <div>
+      <a class="nav__logo d-flex justify-content-center pl-0 ">
+        <!-- <img src="../../../assets/img/CarryOn-blanco.svg" alt="logoPayOff" class="imgLogoMenu" /> -->
+        <button name="button" ngDefaultControl [(ngModel)]="shown" (click)="changeStatus()"
+          class="btn btn-link text-white ">
+          <i class="bi bi-list"></i>
+        </button>
+      </a>
+
+      <div class="nav__list">
+        <a class="nav__link" routerLinkActive="actives">
+          <i class="bi bi-house-door-fill iconoLogin d-flex align-items-center"></i>
+          <span routerLink="/hotel" class="nav__name">Inicio</span>
+        </a>
+        <ul class="list-unstyled">
+          <li>
+            <a data-bs-toggle="collapse" href="#dashboard" class="collapsed nav__link" routerLinkActive="actives">
+              <i class="fas fa-inbox"></i>
+              <span class="nav-label">
+                Reservas <i class="bi bi-caret-down-fill"></i></span>
+            </a>
+            <ul class="sub-menu collapse ml-4 list-unstyled pl-5" id="dashboard">
+              <li class="pb-2">
+                <a class="text-light" routerLinkActive="actives" routerLink="/pasarela">Pasarela</a>
+              </li>
+              <li class="">
+                <a class="text-light" routerLinkActive="actives" routerLink="/productos">Productos</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="list-unstyled">
+          <li>
+            <a data-bs-toggle="collapse" href="#dashboard1" class="collapsed nav__link" routerLinkActive="actives">
+              <i class="fas fa-hotel"></i>
+              <span class="nav-label">
+                Hoteles <i class="bi bi-caret-down-fill"></i></span>
+            </a>
+            <ul class="sub-menu collapse ml-4 list-unstyled pl-5" id="dashboard1">
+              <li class="pb-2">
+                <a class="text-light" routerLinkActive="actives" routerLink="/pasarela">Pasarela</a>
+              </li>
+              <li class="">
+                <a class="text-light" routerLinkActive="actives" routerLink="/productos">Productos</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="list-unstyled">
+          <li>
+            <a data-bs-toggle="collapse" href="#dashboard2" class="collapsed nav__link" routerLinkActive="actives">
+              <i class="fas fa-plane"></i>
+              <span class="nav-label">
+                Aéreos <i class="bi bi-caret-down-fill"></i></span>
+            </a>
+            <ul class="sub-menu collapse ml-4 list-unstyled pl-5" id="dashboard2">
+              <li class="pb-2">
+                <a class="text-light" routerLinkActive="actives" routerLink="/pasarela">Pasarela</a>
+              </li>
+              <li class="">
+                <a class="text-light" routerLinkActive="actives" routerLink="/productos">Productos</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="list-unstyled">
+          <li>
+            <a data-bs-toggle="collapse" href="#dashboard3" class="collapsed nav__link" routerLinkActive="actives">
+              <i class="fas fa-bus"></i>
+              <span class="nav-label">
+                Traslados <i class="bi bi-caret-down-fill"></i></span>
+            </a>
+            <ul class="sub-menu collapse ml-4 list-unstyled pl-5" id="dashboard3">
+              <li class="pb-2">
+                <a class="text-light" routerLinkActive="actives" routerLink="/pasarela">Pasarela</a>
+              </li>
+              <li class="">
+                <a class="text-light" routerLinkActive="actives" routerLink="/productos">Productos</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="list-unstyled">
+          <li>
+            <a data-bs-toggle="collapse" href="#dashboard4" class="collapsed nav__link" routerLinkActive="actives">
+              <i class="fas fa-map-marked-alt"></i>
+              <span class="nav-label">
+                Tours <i class="bi bi-caret-down-fill"></i></span>
+            </a>
+            <ul class="sub-menu collapse ml-4 list-unstyled pl-5" id="dashboard4">
+              <li class="pb-2">
+                <a class="text-light" routerLinkActive="actives" routerLink="/pasarela">Pasarela</a>
+              </li>
+              <li class="">
+                <a class="text-light" routerLinkActive="actives" routerLink="/productos">Productos</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <a class="nav__link" routerLinkActive="actives">
+          <i class="fas fa-route iconoLogin d-flex align-items-center"></i>
+          <span routerLink="/circuitos" class="nav__name">Circuitos</span>
+        </a>
+        <a class="nav__link" routerLinkActive="actives">
+          <i class="fas fa-users iconoLogin d-flex align-items-center"></i>
+          <span routerLink="/circuitos" class="nav__name">Grupos</span>
+        </a>
+
+        <ul class="list-unstyled">
+          <li>
+            <a data-bs-toggle="collapse" href="#dashboard6" class="collapsed nav__link" routerLinkActive="actives">
+              <i class="fas fa-list-alt"></i>
+              <span class="nav-label">
+                Catálogo <i class="bi bi-caret-down-fill"></i></span>
+            </a>
+            <ul class="sub-menu collapse ml-4 list-unstyled pl-5" id="dashboard6">
+              <li class="pb-2">
+                <a class="text-light" routerLinkActive="actives" routerLink="/pasarela">Pasarela</a>
+              </li>
+              <li class="">
+                <a class="text-light" routerLinkActive="actives" routerLink="/productos">Productos</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="list-unstyled">
+          <li>
+            <a data-bs-toggle="collapse" href="#dashboard6" class="collapsed nav__link" routerLinkActive="actives">
+              <i class="fas fa-funnel-dollar"></i>
+              <span class="nav-label">
+                Marketing <i class="bi bi-caret-down-fill"></i></span>
+            </a>
+            <ul class="sub-menu collapse ml-4 list-unstyled pl-5" id="dashboard6">
+              <li class="pb-2">
+                <a class="text-light" routerLinkActive="actives" routerLink="/pasarela">Pasarela</a>
+              </li>
+              <li class="">
+                <a class="text-light" routerLinkActive="actives" routerLink="/productos">Productos</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <a class="nav__link" routerLinkActive="actives">
+          <i class="fas fa-file iconoLogin d-flex align-items-center"></i>
+          <span routerLink="/circuitos" class="nav__name">Reportes</span>
+        </a>
+        <ul class="list-unstyled">
+          <li>
+            <a data-bs-toggle="collapse" href="#dashboard5" class="collapsed nav__link" routerLinkActive="actives">
+              <i class="bi bi-gear"></i>
+              <span class="nav-label">
+                Configuración <i class="bi bi-caret-down-fill"></i></span>
+            </a>
+            <ul class="sub-menu collapse ml-4 list-unstyled pl-5" id="dashboard5">
+              <li class="pb-2">
+                <a class="text-light" routerLinkActive="actives" routerLink="/pasarela">Pasarela</a>
+              </li>
+              <li class="">
+                <a class="text-light" routerLinkActive="actives" routerLink="/productos">Productos</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+        <a class="nav__link margenNegativoSidebar">
+          <!-- <fa-icon
+                [icon]="faSignOutAlt"
+                class="iconoLogin d-flex align-items-center"
+              ></fa-icon> -->
+          <i class="bi bi-box-arrow-left iconoLogin d-flex align-items-center"></i>
+          <span class="nav__name"><a (click)="logout()">Salir</a></span>
+        </a>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div class="l-navbar show menuNoResponsive" [ngClass]="shownDesktop ? 'showActive' : ''" id="nav-bar">
+  <nav class="nav" style="overflow-y: auto">
+    <div>
+      <a class="nav__logo d-flex justify-content-center pl-0 ">
+        <!-- <img src="../../../assets/img/CarryOn-blanco.svg" alt="logoPayOff" class="imgLogoMenu" /> -->
+        <button name="button" ngDefaultControl (click)="changeData()"
+          class="btn btn-link text-white ">
+          <i class="bi bi-list"></i>
+        </button>
+      </a>
+
+      <div class="nav__list">
+        <a class="nav__link" routerLink="/dashboard" routerLinkActive="actives">
+          <i class="bi bi-house-door-fill iconoLogin d-flex align-items-center"></i>
+          <span class="nav__name">Inicio</span>
+        </a>
+        <ul class="list-unstyled">
+          <li>
+            <a data-bs-toggle="collapse" href="#dashboard" class="collapsed nav__link" routerLinkActive="actives">
+              <i class="fas fa-inbox"></i>
+              <span class="nav-label">
+                Reservas <i class="bi bi-caret-down-fill"></i></span>
+            </a>
+            <ul class="sub-menu collapse ml-4 list-unstyled pl-5" id="dashboard">
+              <li class="pb-2">
+                <a class="text-light" routerLinkActive="actives" routerLink="/pasarela">Pasarela</a>
+              </li>
+              <li class="">
+                <a class="text-light" routerLinkActive="actives" routerLink="/productos">Productos</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="list-unstyled">
+          <li>
+            <a data-bs-toggle="collapse" href="#dashboard1" class="collapsed nav__link" routerLinkActive="actives">
+              <i class="fas fa-hotel"></i>
+              <span class="nav-label">
+                Hoteles <i class="bi bi-caret-down-fill"></i></span>
+            </a>
+            <ul class="sub-menu collapse ml-4 list-unstyled pl-5" id="dashboard1">
+              <li class="pb-2">
+                <a class="text-light" routerLinkActive="actives" routerLink="/pasarela">Pasarela</a>
+              </li>
+              <li class="">
+                <a class="text-light" routerLinkActive="actives" routerLink="/productos">Productos</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="list-unstyled">
+          <li>
+            <a data-bs-toggle="collapse" href="#dashboard2" class="collapsed nav__link" routerLinkActive="actives">
+              <i class="fas fa-plane"></i>
+              <span class="nav-label">
+                Aéreos <i class="bi bi-caret-down-fill"></i></span>
+            </a>
+            <ul class="sub-menu collapse ml-4 list-unstyled pl-5" id="dashboard2">
+              <li class="pb-2">
+                <a class="text-light" routerLinkActive="actives" routerLink="/pasarela">Pasarela</a>
+              </li>
+              <li class="">
+                <a class="text-light" routerLinkActive="actives" routerLink="/productos">Productos</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="list-unstyled">
+          <li>
+            <a data-bs-toggle="collapse" href="#dashboard3" class="collapsed nav__link" routerLinkActive="actives">
+              <i class="fas fa-bus"></i>
+              <span class="nav-label">
+                Traslados <i class="bi bi-caret-down-fill"></i></span>
+            </a>
+            <ul class="sub-menu collapse ml-4 list-unstyled pl-5" id="dashboard3">
+              <li class="pb-2">
+                <a class="text-light" routerLinkActive="actives" routerLink="/pasarela">Pasarela</a>
+              </li>
+              <li class="">
+                <a class="text-light" routerLinkActive="actives" routerLink="/productos">Productos</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="list-unstyled">
+          <li>
+            <a data-bs-toggle="collapse" href="#dashboard4" class="collapsed nav__link" routerLinkActive="actives">
+              <i class="fas fa-map-marked-alt"></i>
+              <span class="nav-label">
+                Tours <i class="bi bi-caret-down-fill"></i></span>
+            </a>
+            <ul class="sub-menu collapse ml-4 list-unstyled pl-5" id="dashboard4">
+              <li class="pb-2">
+                <a class="text-light" routerLinkActive="actives" routerLink="/pasarela">Pasarela</a>
+              </li>
+              <li class="">
+                <a class="text-light" routerLinkActive="actives" routerLink="/productos">Productos</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <a class="nav__link" routerLinkActive="actives">
+          <i class="fas fa-route iconoLogin d-flex align-items-center"></i>
+          <span routerLink="/circuitos" class="nav__name">Circuitos</span>
+        </a>
+        <a class="nav__link" routerLinkActive="actives" routerLink="/grupos">
+          <i class="fas fa-users iconoLogin d-flex align-items-center"></i>
+          <span class="nav__name">Grupos</span>
+        </a>
+        <a class="nav__link" routerLinkActive="actives" routerLink="/flyers">
+          <i class="fas fa-tag iconoLogin d-flex align-items-center"></i>
+          <span class="nav__name">Flyers</span>
+        </a>
+        <a class="nav__link" routerLinkActive="actives" routerLink="/microblog">
+          <i class="fas fa-list-alt iconoLogin d-flex align-items-center"></i>
+          <span class="nav__name">Microblog</span>
+        </a>
+        <ul class="list-unstyled">
+          <li>
+            <a data-bs-toggle="collapse" href="#dashboard7" class="collapsed nav__link" routerLinkActive="actives">
+              <i class="fas fa-funnel-dollar"></i>
+              <span class="nav-label">
+                Marketing <i class="bi bi-caret-down-fill"></i></span>
+            </a>
+            <ul class="sub-menu collapse ml-4 list-unstyled pl-5" id="dashboard7">
+              <li class="pb-2">
+                <a class="text-light" routerLinkActive="actives" routerLink="/pasarela">Pasarela</a>
+              </li>
+              <li class="">
+                <a class="text-light" routerLinkActive="actives" routerLink="/productos">Productos</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <a class="nav__link" routerLinkActive="actives">
+          <i class="fas fa-file iconoLogin d-flex align-items-center"></i>
+          <span routerLink="/circuitos" class="nav__name">Reportes</span>
+        </a>
+        <ul class="list-unstyled">
+          <li>
+            <a data-bs-toggle="collapse" href="#dashboard5" class="collapsed nav__link" routerLinkActive="actives">
+              <i class="bi bi-gear"></i>
+              <span class="nav-label">
+                Configuración <i class="bi bi-caret-down-fill"></i></span>
+            </a>
+            <ul class="sub-menu collapse ml-4 list-unstyled pl-5" id="dashboard5">
+              <li class="pb-2">
+                <a class="text-light" routerLinkActive="actives" routerLink="/pasarela">Pasarela</a>
+              </li>
+              <li class="">
+                <a class="text-light" routerLinkActive="actives" routerLink="/productos">Productos</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+        <a class="nav__link margenNegativoSidebar">
+          <!-- <fa-icon
+                [icon]="faSignOutAlt"
+                class="iconoLogin d-flex align-items-center"
+              ></fa-icon> -->
+          <i class="bi bi-box-arrow-left iconoLogin d-flex align-items-center"></i>
+          <span class="nav__name"><a (click)="logout()">Salir</a></span>
+        </a>
+      </div>
+    </div>
+  </nav>
+</div>

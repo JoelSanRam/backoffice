@@ -1,0 +1,126 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="d-flex align-content-center text-primary ms-0">
+                        <i class="fas fa-angle-left fa-2x me-2"></i>
+                        <h5 class="font-italic">Datos del titular</h5>
+                    </div>
+                    <form [formGroup]="bookingTrasladoForm" (ngSubmit)="onReserve()">
+                        <div class="row bg-white shadow-sm rounded mb-3 py-2">
+                            <div class="col-12 col-sm-6 col-md-3 mb-2 text-primary">
+                                <h5><b>Traslado</b></h5>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-6 mb-2 d-flex">
+                                <small>Aereopuerto-Hotel-Aereopuerto</small>
+
+                            </div>
+                            <div class="col-12  mb-2">
+                                <h6>Titular*</h6>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 mb-2">
+                                <label for="">
+                                    Título
+                                </label>
+                                <select class="form-select" name="select" formControlName="optionPerson">
+                                    <option disabled selected value="">Seleccionar</option>
+                                    <option [value]="d.name" *ngFor="let d of optionsPersona">{{d.name}}</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 mb-2">
+                                <label for=""> Nombre(s): </label>
+                                <input type="text" class="form-control" placeholder="Nombres" aria-label="username"
+                                    aria-describedby="basic-addon1" formControlName="username">
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 mb-2">
+                                <label for="">
+                                    Apellidos:
+                                </label>
+                                <input type="text" class="form-control" placeholder="Apellidos" aria-label="lastName"
+                                    aria-describedby="basic-addon1" formControlName="lastName">
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 mb-2">
+                                <label for="">Edad: </label>
+                                <input type="number" class="form-control" placeholder="Edad" aria-label="age"
+                                    aria-describedby="basic-addon1" formControlName="age">
+                            </div>
+                            <div class="col-md-6"> <label for="">
+                                    Correo electrónico:
+                                </label>
+                                <input type="email" class="form-control" placeholder="Correo electrónico" aria-label="email"
+                                    aria-describedby="basic-addon1" formControlName="email">
+                            </div>
+                            <div class="col-md-6"> 
+                                <label for="">Teléfono: </label>
+                                <input type="text" class="form-control" placeholder="Teléfono" aria-label="phoneNumber"
+                                    aria-describedby="basic-addon1" formControlName="phoneNumber">
+                            </div>
+                            <div class="col-12  mb-2">
+                                <label for="">Observaciones</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" formControlName="observations" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row bg-white shadow-sm rounded mb-3 py-2">
+                        <small>Haremos llegar sus peticiones al hotel, sin embargo están sujetas a disponibilidad y
+                            podría haber cargos adicionales</small>
+                        <div class="col-12  mb-2">
+                            <input type="checkbox" class="me-2"> <label for="">Acepto los términos y condiciones</label>
+                        </div>
+                        <div class="col-12 mb-2 text-center">
+                            <input type="submit" value="Pagar" class="btn btn-outline-success rounded-pill px-5 mx-2">
+                            <input type="submit" value="Reservar"
+                                class="btn btn-outline-primary rounded-pill px-5 mx-2">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card w-100" style="width: 18rem">
+                        <div class="imgHotelDestacado" style="background: url(https://via.placeholder.com/150);">
+
+                        </div>
+
+                        <div class="card-body p-2">
+                            <h5 class="card-title">Traslado</h5>
+                            <small> Aereopuerto-Hotel-Aereopuerto</small> <br>
+                            <small><i class="fas fa-arrow-alt-circle-right"></i> Saliendo de: Cancún Q.R.</small>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="">
+                                        <div class="pasajeros">
+                                            <span>Adultos: 2</span>
+                                            <span>Menores: 0</span>
+                                            <span>Vehículos: 1</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between text-center">
+                                <div class="col-6">
+                                    <small>Check In</small>
+                                    <p class="text-warning m-0">Vie. 18 Nov. 22</p>
+
+                                </div>
+                                <div class="col-6">
+                                    <small>Check Out</small>
+                                    <p class="text-warning m-0">Dom. 21 Nov. 22</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div>
+                                <p class="text-primary">Políticas de cancelación</p>
+                                <p>Insertar las políticas de cancelación</p>
+                            </div>
+                            <hr>
+                            <div class="text-end">
+                                <label for="">Total de estancia</label>
+                                <h5 class="text-info">$12,694.00 <small>MXN</small></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,7 @@
+<div class="card my-3" [ngStyle]="{background: 'url('+imgItem+') no-repeat 0 0 / cover', 'background-position': 'center'}">
+    <div class="card-content">
+        <label class="card-title" style="width: 200px;color: white;font-size: 16px;">{{titulo}}</label>
+        <label class="card-title" style="color: white;float: right;">{{fecha.substring(0, 11)}}</label><br>
+        <a class="card-body" (click)="blogDetalle()">Seguir leyendo <i class="fas fa-angle-right"></i></a>
+    </div>
+</div>

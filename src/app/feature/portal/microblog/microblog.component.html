@@ -1,0 +1,21 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <div class="row p-0 mb-3 w-100">
+                <h4 class="fst-italic" style="color:var(--bs-red)">Microblog</h4>
+            </div>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                    aria-labelledby="pills-home-tab">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4" *ngFor="let blog of publicaciones; let i = index">
+                            <div class="contenedor w-100">
+                                <app-blog-item [id]="blog.idBlog" [fecha]="blog.fecha_publicacion" [titulo]="blog.titulo" [imgItem]="blog.url_thumbnail"></app-blog-item>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

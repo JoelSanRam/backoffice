@@ -1,0 +1,105 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-11 col-lg-11 offset-lg-1 col-xxl-9 offset-xxl-2 offset-md-1">
+            <div class="">
+                <div class="row bg-white shadow-sm rounded-3 mb-5 pt-1 pb-3">
+                    <form class="row"  [formGroup]="buscadorTour">
+
+                        <div class="col-12 my-3 text-primary tituloHomes">
+                            <i class="fas fa-route"></i> <span class="mx-2"><b>Tours</b></span>
+                        </div>
+                        <div class="col-xxl-4 col-md-4 col-sm-6 mb-2">
+                            <label>Destino del tour</label>
+                            <input type="text" [typeahead]="destinos" container="body" [typeaheadMinLength]="2" [typeaheadAsync]="true" [typeaheadItemTemplate]="customItemTemplate" (typeaheadOnSelect)="onSelect($event)" class="form-control" formControlName="destino" placeholder="Ingrese destino" [ngClass]="{'is-invalid': buscadorTour.controls.destino.errors && buscadorTour.controls.destino.touched }" />
+                            <div *ngIf="buscadorTour.controls.destino.errors && buscadorTour.controls.destino.touched" class="invalid-feedback">
+                                * Selecciona un destino
+                              </div>
+                        </div>
+
+                        <ng-template #customItemTemplate let-model="item" let-index="index">
+                            {{model.label}}
+                        </ng-template>
+        
+                        <div class="col-xxl-2 col-md-2 col-sm-6 mb-2">
+                            <label for=""> Fecha de tour </label>
+                            <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker formControlName="dt"
+                                    [minDate]="minDate" [bsValue]="bsValue" [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false, containerClass: 'theme-default' }" >
+                        </div>
+                        <div class="col-xxl-2 col-md-2 col-sm-6 mb-2">
+                            <label for=""> Pasajeros </label>
+                            <div class="dropdown w-100">
+                                <button class="btn border form-select" type="button" data-bs-auto-close="false"
+                                    id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="far fa-user"></i> {{adultos}}
+                                    &nbsp;&nbsp; <i class="fas fa-child"></i> {{menores}}
+                                </button>
+    
+                                <div class="dropdown-menu p-0 text-muted" aria-labelledby="dropdownMenuButton1"
+                                    style="width: 18rem; z-index: 10;">
+                                    <div class="card-header bg-primary text-white">
+                                        Pasajeros
+                                    </div>
+    
+                                    <div class="px-2">
+    
+                                        <div class="d-flex justify-content-between py-2">
+                                            <div class=" me-2">
+                                                <span>Adultos</span>
+                                            </div>
+                                            <div>
+                                                <button (click)="addRemovePerson('adultos','rm')" [disabled]="adultos <= 1 ? 'disabled' : ''" class="text-warning mx-2 p-0 btn"><i
+                                                        class="fas fa-minus-circle"></i></button>
+                                                <span>{{adultos}}</span>
+                                                <button (click)="addRemovePerson('adultos','add')"
+                                                    [ngClass]="adultos == 9 ? 'disabled' : ''" class="text-warning mx-2 p-0 btn"><i
+                                                        class="fas fa-plus-circle"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between py-2">
+                                            <div>
+                                                <span>Menores</span>
+                                            </div>
+                                            <div>
+                                                <button (click)="addRemovePerson('menores','rm')"
+                                                [disabled]="menores<= 0 ? 'disabled' : ''"class="text-warning mx-2 btn p-0"><i
+                                                        class="fas fa-minus-circle"></i></button>
+                                                <span>{{menores}}</span>
+                                                <button (click)="addRemovePerson('menores','add')"
+                                                [disabled]="menores == 9 ? 'disabled' : ''" class="text-warning mx-2 btn p-0"><i
+                                                        class="fas fa-plus-circle"></i></button>
+                                            </div>
+                                        </div>
+    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center col-2 mb-2 mt-4 d-flex align-items-center justify-content-center">
+                            <button (click)="searchTour()" class="btn btn-sm btn-primary text-white rounded-pill ">
+                                <i class="bi bi-search"></i> Buscar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <app-banner></app-banner>
+                <div class="row p-0 mb-3 w-100">
+                    <h4 class="fst-italic text-primary">Flyers</h4>
+                </div>
+                <div class="row rounded-3 mb-5 py-2">
+                    <app-flyers [flyers]="flyers"></app-flyers>
+                </div>
+    
+                <div class="row mb-5 p-0">
+                    <app-carousel [options]="customOptions" [imagenes]="imgArray"></app-carousel>
+                    <div class=" pb-3 text-center">
+                        <input type="submit" class="btn btn-outline-primary rounded-pill mt-3"
+                            value="Ver todas las publicaciones">
+                    </div>
+                </div>
+                <app-publicidad></app-publicidad>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-11 offset-md-1">
+            <div>
+                <button class="btn btn-outline-primary border-0" (click)="regresar()"><i class="fas fa-angle-left"></i>
+                    Regresar</button>
+            </div>
+            <div [ngStyle]="{background: 'url('+galeria[0].url+') no-repeat 0 0 / cover', 'background-position': 'center'}"
+                class="row align-items-end my-3" style="height: 600px; background-position: center;">
+                <div class="col-md-6 col-sm-12 bg-white rounded shadow-sm cajasInfo my-5 ms-5 py-2">
+                    <h5 class="card-title text-primary">{{detalle.titulo}}</h5>
+                    <!-- <span> Riviera Maya</span> <br> -->
+                    <small><i class="fas fa-user"></i> Min
+                        Pax: {{detalle.ocupmin}} |
+                        <!-- <i class="fas fa-arrow-circle-right"></i> Saliendo de: Cancún Q.R. | -->
+                    </small> <small> <i class="fas fa-clock"></i> Horarios: <span
+                            *ngFor="let h of detalle?.horarios; let i = index; let last = last">{{ h + (last ? '' : ',
+                            ') }}</span></small> <br>
+                    <span class="text-info" *ngFor="let c of detalle?.categorias; let i = index; let last = last">{{
+                        c.nombre + (last ? '' : ', ') }}</span> <br>
+                    <small class="bg-warning px-3 text-white rounded-pill">ON REQUEST</small>
+                </div>
+
+                <div class="col-md-6 col-sm-12 my-5">
+                    <div class=" bg-white rounded shadow-sm cajasInfo p-2 float-end">
+                        <div class="d-flex pasajeros">
+                            <div><small>Adultos</small> <br>
+                                <small>{{ tourResult[0].tarifas?.publica.adulto | calculateTCD :
+                                    tourResult[0].tarifas?.currency : tourResult[0].tarifas?.divisa.currency_tc |
+                                    currencyFormat }} MXN</small>
+                            </div>
+                            <div class=""><small>Menor 2-8 años</small><br>
+                                <small>{{ tourResult[0].tarifas?.publica.menor | calculateTCD :
+                                    tourResult[0].tarifas?.currency : tourResult[0].tarifas?.divisa.currency_tc |
+                                    currencyFormat }} MXN</small>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <h4>$12,000.00 <small class="text-primary">MXN</small> </h4>
+                            <button class="btn btn-outline-success rounded-pill">Cotizar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row bg-white rounded shadow-sm mb-5 py-3">
+                <h3>Descipción</h3>
+                <p class="m-0" [innerHtml]="detalle.descripcionLarga"></p>
+                <h3>Incluye</h3>
+                <p class="m-0" [innerHtml]="detalle.incluido"></p>
+                <h3>Recomendaciones</h3>
+                <p class="m-0" [innerHtml]="detalle.recomendaciones"></p>
+            </div>
+            <div class="row">
+                <owl-carousel-o class="p-0" [options]="customOptions">
+                    <ng-template class="mx-1" carouselSlide *ngFor="let g of galeria; let i = index">
+                        <img class="img-fluid rounded-3 w-100" style="height: 500px" [src]="g.url" [alt]="g.url">
+                    </ng-template>
+                </owl-carousel-o>
+            </div>
+        </div>
+    </div>
+</div>

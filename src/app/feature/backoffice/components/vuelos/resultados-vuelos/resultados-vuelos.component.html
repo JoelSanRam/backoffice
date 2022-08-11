@@ -1,0 +1,1157 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-11 col-lg-11 offset-lg-1 col-xxl-11 offset-xxl-1 offset-md-1">
+            <div class="row">
+                <div class="col-md-3 col-sm-12">
+                    <div class="row bg-white shadow-sm rounded mb-3">
+                        <div class="card border-light mb-2 w-100 rounded p-0">
+                            <div class="card-header bg-primary text-light mb-2">
+                                Cotizador
+                            </div>
+                            <div class="card-body px-3">
+                                <div class="row d-flex ms-1">
+                                    <div class="form-check col-4">
+                                        <input class="form-check-input" (change)="onChanceRadio('roundtrip')"
+                                            value="roundtrip" type="radio" name="tipoVuelo" id="flexRadioDefault1"
+                                            [checked]="radioTipoVuelo == 'roundtrip'">
+                                        <label class="form-check-label letraTipoVuelo" for="flexRadioDefault1">
+                                            Vuelo redondo
+                                        </label>
+                                    </div>
+                                    <div class="form-check col-4">
+                                        <input class="form-check-input" (change)="onChanceRadio('single')"
+                                            [checked]="radioTipoVuelo == 'single'" value="single" type="radio"
+                                            name="tipoVuelo" id="flexRadioDefault2">
+                                        <label class="form-check-label letraTipoVuelo" for="flexRadioDefault2">
+                                            Vuelo sencillo
+                                        </label>
+                                    </div>
+                                    <div class="form-check col-4">
+                                        <input class="form-check-input" (change)="onChanceRadio('multitrip')"
+                                            [checked]="radioTipoVuelo == 'multitrip'" value="multitrip" type="radio"
+                                            name="tipoVuelo" id="flexRadioDefault3">
+                                        <label class="form-check-label letraTipoVuelo" for="flexRadioDefault3">
+                                            Multidestino
+                                        </label>
+                                    </div>
+
+                                </div>
+                                <div class="row" *ngIf="radioTipoVuelo == 'roundtrip'">
+                                    <div class="col-12 mb-2">
+                                        <label>Origen</label>
+                                        <input [(ngModel)]="arrayDestinos[0].origenLabel"
+                                            (ngModelChange)="autocompleteAirport($event)" [typeahead]="destinos"
+                                            [typeaheadMinLength]="2" [typeaheadScrollable]="true"
+                                            [typeaheadOptionsInScrollableView]="6" [typeaheadAsync]="true"
+                                            [typeaheadItemTemplate]="customItemTemplateOrigen"
+                                            (typeaheadOnSelect)="onSelectAirport($event, 'origen', 0)" type="text"
+                                            class="form-control" placeholder="Ingrese origen" id="origen"
+                                            name="origen" />
+                                        <ng-template #customItemTemplateOrigen let-model="item" let-index="index">
+                                            <p class="m-0">
+                                                <i class="fas fa-plane-departure" aria-hidden="true"></i>
+                                                {{ model.ciudad + ', ' + model.pais + ' (' + model.codigo + ')' }}
+                                            </p>
+                                            <small>{{ model.aeropuerto }}</small>
+                                        </ng-template>
+
+                                    </div>
+
+                                    <div class="col-12 mb-2">
+                                        <label>Destino</label>
+                                        <input [(ngModel)]="arrayDestinos[0].destinoLabel"
+                                            (ngModelChange)="autocompleteAirport($event)" [typeahead]="destinos"
+                                            [typeaheadMinLength]="2" [typeaheadScrollable]="true"
+                                            [typeaheadOptionsInScrollableView]="6" [typeaheadAsync]="true"
+                                            [typeaheadItemTemplate]="customItemTemplateDestino"
+                                            (typeaheadOnSelect)="onSelectAirport($event, 'destino', 0)" type="text"
+                                            class="form-control" placeholder="Ingrese destino" id="destino"
+                                            name="destino" />
+                                        <ng-template #customItemTemplateDestino let-model="item" let-index="index">
+                                            <p class="m-0">
+                                                <i class="fas fa-plane-arrival" aria-hidden="true"></i>
+                                                {{ model.ciudad + ', ' + model.pais + ' (' + model.codigo + ')' }}
+                                            </p>
+                                            <small>{{ model.aeropuerto }}</small>
+                                        </ng-template>
+                                    </div>
+
+                                    <div class="col-12 col-md-12 mb-2">
+                                        <label for=""> Fechas</label>
+                                        <div class="d-flex">
+                                            <input type="text" class="form-control "
+                                                *ngIf="radioTipoVuelo == 'roundtrip'"
+                                                #daterangepicker="bsDaterangepicker" bsDaterangepicker
+                                                [(ngModel)]="bsRangeValue" [maxDate]="maxDate2"
+                                                [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false, containerClass: 'theme-default' }"
+                                                [minDate]="minDate">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div *ngIf="radioTipoVuelo === 'single' || radioTipoVuelo === 'multitrip'">
+                                    <div class="row" *ngFor="let i of (totalDestinos | range); let index = index">
+                                        <div *ngIf="index == 0">
+                                            <div class="d-flex justify-content-between"
+                                                *ngIf="radioTipoVuelo === 'multitrip'">
+                                                <div>
+                                                    <span>Tramo 1</span>
+                                                    <button *ngIf="totalDestinos > 2" class="btn btn-sm py-0 border-0"
+                                                        (click)="addRmDestino('rm',i)"><i
+                                                            class="far fa-trash-alt text-primary"></i></button>
+                                                </div>
+                                                <div *ngIf="radioTipoVuelo === 'multitrip'">
+                                                    <button class="btn btn-sm btn-outline-info rounded-circle"
+                                                        style="max-width: max-content;" type="button"
+                                                        data-bs-toggle="collapse" data-bs-target="#collapseMasTramos"
+                                                        aria-expanded="false" aria-controls="collapseMasTramos">
+                                                        <i class="fas fa-chevron-down"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <label [for]="'origen_'+i">Origen</label>
+                                                <input [(ngModel)]="arrayDestinos[i].origenLabel"
+                                                    (ngModelChange)="autocompleteAirport($event)" [typeahead]="destinos"
+                                                    [typeaheadMinLength]="2" [typeaheadScrollable]="true"
+                                                    [typeaheadOptionsInScrollableView]="6" [typeaheadAsync]="true"
+                                                    [typeaheadItemTemplate]="customItemTemplateOrigen"
+                                                    (typeaheadOnSelect)="onSelectAirport($event, 'origen', i)"
+                                                    type="text" class="form-control" placeholder="Ingrese origen"
+                                                    [id]="'origen_'+i" [name]="'origen_'+i" />
+                                                <ng-template #customItemTemplateOrigen let-model="item"
+                                                    let-index="index">
+                                                    <p class="m-0">
+                                                        <i class="fas fa-plane-departure" aria-hidden="true"></i>
+                                                        {{ model.ciudad + ', ' + model.pais + ' (' + model.codigo + ')'
+                                                        }}
+                                                    </p>
+                                                    <small>{{ model.aeropuerto }}</small>
+                                                </ng-template>
+                                            </div>
+                                            <div class="col-12">
+                                                <label for="'destino'+i">Destino</label>
+                                                <input [(ngModel)]="arrayDestinos[i].destinoLabel"
+                                                    (ngModelChange)="autocompleteAirport($event)" [typeahead]="destinos"
+                                                    [typeaheadMinLength]="2" [typeaheadScrollable]="true"
+                                                    [typeaheadOptionsInScrollableView]="6" [typeaheadAsync]="true"
+                                                    [typeaheadItemTemplate]="customItemTemplateDestino"
+                                                    (typeaheadOnSelect)="onSelectAirport($event, 'destino', i)"
+                                                    type="text" class="form-control" placeholder="Ingrese destino"
+                                                    id="destino" [name]="'destino'+i" />
+                                                <ng-template #customItemTemplateDestino let-model="item"
+                                                    let-index="index">
+                                                    <p class="m-0">
+                                                        <i class="fas fa-plane-arrival" aria-hidden="true"></i>
+                                                        {{ model.ciudad + ', ' + model.pais + ' (' + model.codigo + ')'
+                                                        }}
+                                                    </p>
+                                                    <small>{{ model.aeropuerto }}</small>
+                                                </ng-template>
+                                            </div>
+                                            <div class="col-12">
+                                                <label for=""> Fechas </label>
+                                                <div class="d-flex">
+                                                    <input type="text" placeholder="Datepicker"
+                                                        class="form-control form-control-sm" bsDatepicker
+                                                        [minDate]="minDate" [(ngModel)]="fechas[i].fecha"
+                                                        [maxDate]="maxDate2"
+                                                        [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false, containerClass: 'theme-default' }">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="collapse" id="collapseMasTramos">
+                                            <div *ngIf="index > 0">
+                                                <div class="d-flex  mt-2" *ngIf="radioTipoVuelo === 'multitrip'">
+                                                    <span>Tramo {{i+1}}</span>
+                                                    <button *ngIf="totalDestinos > 2" class="btn btn-sm py-0 border-0"
+                                                        (click)="addRmDestino('rm',i)"><i
+                                                            class="far fa-trash-alt text-primary"></i></button>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label [for]="'origen_'+i">Origen</label>
+                                                    <input [(ngModel)]="arrayDestinos[i].origenLabel"
+                                                        (ngModelChange)="autocompleteAirport($event)"
+                                                        [typeahead]="destinos" [typeaheadMinLength]="2"
+                                                        [typeaheadScrollable]="true"
+                                                        [typeaheadOptionsInScrollableView]="6" [typeaheadAsync]="true"
+                                                        [typeaheadItemTemplate]="customItemTemplateOrigen"
+                                                        (typeaheadOnSelect)="onSelectAirport($event, 'origen', i)"
+                                                        type="text" class="form-control" placeholder="Ingrese origen"
+                                                        [id]="'origen_'+i" [name]="'origen_'+i" />
+                                                    <ng-template #customItemTemplateOrigen let-model="item"
+                                                        let-index="index">
+                                                        <p class="m-0">
+                                                            <i class="fas fa-plane-departure" aria-hidden="true"></i>
+                                                            {{ model.ciudad + ', ' + model.pais + ' (' + model.codigo +
+                                                            ')'
+                                                            }}
+                                                        </p>
+                                                        <small>{{ model.aeropuerto }}</small>
+                                                    </ng-template>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label for="'destino'+i">Destino</label>
+                                                    <input [(ngModel)]="arrayDestinos[i].destinoLabel"
+                                                        (ngModelChange)="autocompleteAirport($event)"
+                                                        [typeahead]="destinos" [typeaheadMinLength]="2"
+                                                        [typeaheadScrollable]="true"
+                                                        [typeaheadOptionsInScrollableView]="6" [typeaheadAsync]="true"
+                                                        [typeaheadItemTemplate]="customItemTemplateDestino"
+                                                        (typeaheadOnSelect)="onSelectAirport($event, 'destino', i)"
+                                                        type="text" class="form-control" placeholder="Ingrese destino"
+                                                        id="destino" [name]="'destino'+i" />
+                                                    <ng-template #customItemTemplateDestino let-model="item"
+                                                        let-index="index">
+                                                        <p class="m-0">
+                                                            <i class="fas fa-plane-arrival" aria-hidden="true"></i>
+                                                            {{ model.ciudad + ', ' + model.pais + ' (' + model.codigo +
+                                                            ')'
+                                                            }}
+                                                        </p>
+                                                        <small>{{ model.aeropuerto }}</small>
+                                                    </ng-template>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label for=""> Fechas </label>
+                                                    <div class="d-flex">
+                                                        <input type="text" placeholder="Datepicker"
+                                                            class="form-control form-control-sm" bsDatepicker
+                                                            [minDate]="minDate" [(ngModel)]="fechas[i].fecha"
+                                                            [maxDate]="maxDate2"
+                                                            [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false, containerClass: 'theme-default' }">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center" *ngIf="radioTipoVuelo == 'multitrip'">
+                                        <button *ngIf="totalDestinos < 6" (click)="addRmDestino('add', null)"
+                                            class="btn btn-sm btn-outline-success rounded-pill">Añadir
+                                            tramo</button>
+                                    </div>
+                                </div>
+
+
+                                <div class="row pe-0 mb-2">
+                                    <label class="w-100" for=""> Pasajeros </label>
+                                    <div class="dropdown ">
+                                        <button class="btn border form-select w-100" type="button"
+                                            data-bs-auto-close="false" id="dropdownMenuButton1"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="far fa-user"></i> {{personas.adultos}}
+                                            &nbsp;&nbsp; <i class="fas fa-child"></i> {{personas.menores}}
+                                            &nbsp;&nbsp;<i class="fas fa-baby"></i> {{personas.infantes}}
+                                        </button>
+
+                                        <div class="dropdown-menu p-0 text-muted" aria-labelledby="dropdownMenuButton1"
+                                            style="width: 18rem; z-index: 10;">
+                                            <div class="card-header bg-primary text-white">
+                                                Pasajeros
+                                            </div>
+
+                                            <div class="px-2">
+
+                                                <div class="d-flex justify-content-between py-2">
+                                                    <div class=" me-2">
+                                                        <span>Adultos</span>
+                                                    </div>
+                                                    <div>
+                                                        <a (click)="addRemovePerson('adultos','rm')"
+                                                            [ngClass]="personas.adultos == 1 ? 'disabled' : ''"
+                                                            class="text-warning mx-2"><i
+                                                                class="fas fa-minus-circle"></i></a>
+                                                        <span>{{personas.adultos}}</span>
+                                                        <a (click)="addRemovePerson('adultos','add')"
+                                                            [ngClass]="personas.adultos == 9 ? 'disabled' : ''"
+                                                            class="text-warning mx-2"><i
+                                                                class="fas fa-plus-circle"></i></a>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex justify-content-between py-2">
+                                                    <div>
+                                                        <span>Menores</span>
+                                                    </div>
+                                                    <div>
+                                                        <a (click)="addRemovePerson('menores','rm')"
+                                                            [ngClass]="personas.total == 1 ? 'disabled' : ''"
+                                                            class="text-warning mx-2"><i
+                                                                class="fas fa-minus-circle"></i></a>
+                                                        <span>{{personas.menores}}</span>
+                                                        <a (click)="addRemovePerson('menores','add')"
+                                                            [ngClass]="personas.total == 9 ? 'disabled' : ''"
+                                                            class="text-warning mx-2"><i
+                                                                class="fas fa-plus-circle"></i></a>
+                                                    </div>
+                                                </div>
+                                                <div *ngIf="personas.menores > 0" class="py-2">
+                                                    <div class="my-2">
+                                                        <span class="me-2">Edad del menor {{personas.edadmenores}}
+                                                        </span>
+                                                        <div class="row mx-1">
+                                                            <select
+                                                                *ngFor="let menorEdad of personas.edadmenores; let e = index;"
+                                                                (change)="parseandoElDato('menores', personas.edadmenores[e], e)"
+                                                                [(ngModel)]="personas.edadmenores[e]"
+                                                                class="form-select m-1 selectMenores">
+                                                                <option *ngFor="let ed of edadMenores" [value]="ed">
+                                                                    {{ed}}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex justify-content-between py-2">
+                                                    <div>
+                                                        <span>Infantes</span>
+                                                    </div>
+                                                    <div>
+                                                        <a (click)="addRemovePerson('infantes','rm')"
+                                                            [ngClass]="personas.total == 1 ? 'disabled' : ''"
+                                                            class="text-warning mx-2"><i
+                                                                class="fas fa-minus-circle"></i></a>
+                                                        <span>{{personas.infantes}}</span>
+                                                        <a (click)="addRemovePerson('infantes','add')"
+                                                            [ngClass]="personas.total == 9 ? 'disabled' : ''"
+                                                            class="text-warning mx-2"><i
+                                                                class="fas fa-plus-circle"></i></a>
+                                                    </div>
+                                                </div>
+                                                <div *ngIf="personas.infantes > 0" class="py-2">
+                                                    <div class=" my-2">
+                                                        <span class="me-2">Edad del infante</span>
+                                                        <div class="row mx-1">
+                                                            <select
+                                                                *ngFor="let infanteEdad of personas.edadinfantes; let i = index;"
+                                                                (change)="parseandoElDato('infantes', personas.edadinfantes[i], i)"
+                                                                [(ngModel)]="personas.edadinfantes[i]"
+                                                                class="form-select m-1 selectMenores">
+                                                                <option *ngFor="let ed of edadInfantes" [value]="ed">
+                                                                    {{ed}}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center col-12 mb-2">
+                                    <button (click)="search()" class="btn btn-sm btn-primary text-white rounded-pill ">
+                                        Buscar <i class="ml-2 bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row bg-white shadow-sm rounded mb-3 ">
+                        <div class="card border-light mb-2 w-100 rounded p-0">
+                            <div class="card-header bg-primary text-light">
+                                Filtros <i class="bi bi-funnel-fill"></i>
+                            </div>
+                            <div class="card-body px-3">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label class="">Ordenar por:</label>
+                                        <select class="form-select mb-2 " name="select">
+                                            <option value="value1" selected disabled>
+                                                Planes disponibles
+                                            </option>
+                                            <option value="value2">Value 2</option>
+                                            <option value="value3">Value 3</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p>
+                                            <button class="btn form-select text-start" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#aereolineas"
+                                                aria-expanded="false" aria-controls="aereolineas">
+                                                Aereolineas
+                                            </button>
+                                        </p>
+                                        <div class="collapse" id="aereolineas">
+                                            <div class="card card-body">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value=""
+                                                        id="flexCheckDefault">
+                                                    <label class="form-check-label" for="flexCheckDefault">
+                                                        <img src="https://w7.pngwing.com/pngs/741/68/png-transparent-user-computer-icons-user-miscellaneous-cdr-rectangle-thumbnail.png"
+                                                            height="15px" alt=""> Volaris
+                                                    </label>
+                                                </div>
+
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value=""
+                                                        id="flexCheckDefault">
+                                                    <label class="form-check-label" for="flexCheckDefault">
+                                                        <img src="https://w7.pngwing.com/pngs/741/68/png-transparent-user-computer-icons-user-miscellaneous-cdr-rectangle-thumbnail.png"
+                                                            height="15px" alt=""> Aereomexico
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p>
+                                            <button class="btn form-select text-start" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#escalas"
+                                                aria-expanded="false" aria-controls="escalas">
+                                                Escalas
+                                            </button>
+                                        </p>
+                                        <div class="collapse" id="escalas">
+                                            <div class="card card-body">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value=""
+                                                        id="flexCheckDefault">
+                                                    <label class="form-check-label" for="flexCheckDefault"> Directo
+                                                    </label>
+                                                </div>
+
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value=""
+                                                        id="flexCheckDefault">
+                                                    <label class="form-check-label" for="flexCheckDefault"> 1 Escala
+                                                    </label>
+                                                </div>
+
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value=""
+                                                        id="flexCheckDefault">
+                                                    <label class="form-check-label" for="flexCheckDefault"> 2 Escalas
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p>
+                                            <button class="btn form-select text-start" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#duracion"
+                                                aria-expanded="false" aria-controls="duracion">
+                                                Duración
+                                            </button>
+                                        </p>
+                                        <div class="collapse" id="duracion">
+                                            <div class="card card-body">
+                                                <div class="form-group mb-2">
+                                                    <label for="formControlRange"><i class="fas fa-plane-departure"></i>
+                                                        Salida</label>
+                                                    <input type="range" class="form-control-range"
+                                                        id="formControlRange" />
+                                                    <div class="d-flex justify-content-between">
+                                                        <small>1 h 50 m</small>
+                                                        <small>4 h 50 m</small>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="formControlRange"><i class="fas fa-plane-arrival"></i>
+                                                        Regreso</label>
+                                                    <input type="range" class="form-control-range"
+                                                        id="formControlRange" />
+                                                    <div class="d-flex justify-content-between">
+                                                        <small>1 h 50 m</small>
+                                                        <small>4 h 50 m</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <form>
+                                    <div class="form-group">
+                                        <label for="formControlRange">Precio</label>
+                                        <input type="range" class="form-control-range" id="formControlRange" />
+                                        <div class="d-flex justify-content-between">
+                                            <small>$1000</small>
+                                            <small>$1000</small>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9 col-sm-12">
+                    <div class="mb-1 d-flex justify-content-between">
+                        <div class="text-primary">
+                            <span class="tituloServicio"><i class="fas fa-plane"></i> Vuelos</span>
+                        </div>
+                        <div class="text-end">
+                            <p class="mb-0">Se encontraron {{dataVuelos?.length}} resultados</p>
+                        </div>
+                    </div>
+                    <div class="mb-1">
+                        <div class="">
+                            <div class="col-md-12">
+                                <div *ngFor="let item of dataVuelos ;let i = index" class="card mb-2">
+                                    <div class="row w-100">
+                                        <div class="col-md-9">
+                                            <div *ngIf="radioTipoVuelo == 'roundtrip' || radioTipoVuelo == 'single'">
+                                                <div class="row ms-0 border-top">
+                                                    <div class="bg-primary text-white rounded-2 p-1 col-sm-3 col-md-4 col-lg-3 text-center"
+                                                        style="height: fit-content; line-height: 1.2;">
+
+                                                        <span><i class="fas fa-plane-departure"></i> SALIDA</span>
+                                                    </div>
+                                                    <div
+                                                        class="col-lg-6 col-md-5 col-sm-12 pt-2 d-flex justify-content-center">
+                                                        <div>
+                                                            <h6 class="text-primary m-0 fw-bold">
+                                                                {{item?.tramos[0].nombreDestino}}</h6>
+
+                                                        </div>
+                                                        <div class="my-auto mx-4">
+                                                            <small class="text-primary"> {{item?.tramos[0].date | date:
+                                                                'dd/MM/yyyy' }}</small>
+                                                        </div>
+                                                        <div>
+                                                            <h6 class="text-primary m-0 fw-bold">
+                                                                {{item?.tramos[0].nombreOrigen}}</h6>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 justify-content-end pt-2 d-flex align-items-center"
+                                                        style="height: fit-content">
+                                                        <div class="me-2"><small>Operado por:</small>
+                                                        </div>
+                                                        <div><img style="width: 40px"
+                                                                [src]="'https://tms-img.s3.amazonaws.com/icons/airlines/' + item?.tramos[0].vuelos[0].infovuelo[0].operating_carrier + '.png'"
+                                                                [alt]="'https://tms-img.s3.amazonaws.com/icons/airlines/' + item?.tramos[0].vuelos[0].infovuelo[0].operating_carrier + '.png'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row ms-0 mt-1">
+                                                    <div class="col-lg-4 col-md-12 col-sm-12 my-auto ">
+                                                        <div class="form-check d-flex align-items-center infoVuelo">
+                                                            <input class="form-check-input me-3" type="radio"
+                                                                name="selecVuelo" id="flexRadioDefault1">
+                                                            <img style="width: 60px"
+                                                                [src]="'https://tms-img.s3.amazonaws.com/icons/airlines/' + item?.tramos[0].vuelos[0]?.iata_aerolinea + '.png'"
+                                                                alt="">
+                                                            <h6 class="text-primary my-auto fw-bold">
+                                                                {{item?.tramos[0].vuelos[0]?.aerolinea}} <br><small
+                                                                    class="text-black-50" style="font-size: 12px">Vuelo:
+                                                                    {{item?.tramos[0].vuelos[0]?.infovuelo[0].vuelo}}</small>
+                                                            </h6>
+
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-lg-5 col-md-12 col-sm-12 d-flex my-auto justify-content-center infoVuelo">
+                                                        <div>
+                                                            <h6 class="text-secondary">{{
+                                                                formatTime(item?.tramos[0].vuelos[0]?.infovuelo[0].Horasalida)
+                                                                }}</h6>
+                                                        </div>
+                                                        <div class=" mx-4">
+                                                            <span
+                                                                *ngIf="item?.tramos[0].vuelos[0].infovuelo.length == 1"
+                                                                class="mb-2 d-block text-decoration-underline">DIRECTO</span>
+
+                                                            <button class="btn text-primary" type="button"
+                                                                *ngIf="item?.tramos[0].vuelos[0].infovuelo.length > 1"
+                                                                data-bs-toggle="collapse"
+                                                                [attr.data-bs-target]="'#collapse1Escala0Redondo'+i"
+                                                                aria-expanded="false"
+                                                                aria-controls="collapse1Escala0Redondo">1
+                                                                Escala
+                                                            </button>
+                                                        </div>
+                                                        <div>
+                                                            <h6 class="text-secondary">{{
+                                                                formatTime(item?.tramos[0].vuelos[0]?.infovuelo[0].Horallegada)
+                                                                }}</h6>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-md-12 col-lg-3 col-sm-12 my-auto text-center text-secondary">
+                                                        <h6><i class="far fa-clock"></i>{{
+                                                            formatDuration(item?.tramos[0].vuelos[0]?.duracionVuelo) }}
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                                <div class="collapse" [id]="'collapse1Escala0Redondo'+i">
+                                                    <div *ngFor="let escala of item?.tramos[0].vuelos[0].infovuelo"
+                                                        class="row ms-0 mt-1">
+                                                        <div class="col-lg-4 col-md-12 col-sm-12 my-auto ">
+                                                            <div class="form-check d-flex align-items-center infoVuelo">
+
+                                                                <img style="width: 60px"
+                                                                    [src]="'https://tms-img.s3.amazonaws.com/icons/airlines/' + escala.operating_carrier + '.png'"
+                                                                    alt="">
+                                                                <h6 class="text-primary my-auto fw-bold">
+                                                                    {{escala.aerolinea}} <br><small
+                                                                        class="text-black-50"
+                                                                        style="font-size: 12px">Vuelo:
+                                                                        {{escala.vuelo}}</small>
+                                                                </h6>
+
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="col-lg-5 col-md-12 col-sm-12 d-flex my-auto justify-content-center infoVuelo">
+                                                            <div>
+                                                                <h6 class="text-secondary">{{
+                                                                    formatTime(escala.Horasalida)
+                                                                    }}</h6>
+                                                            </div>
+                                                            <div class=" mx-4">
+                                                                <a *ngIf="item?.tramos[0].vuelos[0].infovuelo.length > 1"
+                                                                    class="mb-2 d-block text-decoration-underline"
+                                                                    data-toggle="collapse">1
+                                                                    Escala </a>
+                                                            </div>
+                                                            <div>
+                                                                <h6 class="text-secondary">{{
+                                                                    formatTime(escala.Horallegada)
+                                                                    }}</h6>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="col-md-12 col-lg-3 col-sm-12 my-auto text-center text-secondary">
+                                                            <h6><i class="far fa-clock"></i>{{
+                                                                escala.duracionVuelo}}
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row ms-0 mt-1">
+                                                    <p class="text-center">
+                                                        <button class="btn text-primary" type="button"
+                                                            data-bs-toggle="collapse"
+                                                            [attr.data-bs-target]="'#collapseMasVuelosSalida'+i"
+                                                            aria-expanded="false"
+                                                            aria-controls="collapseMasVuelosSalida">
+                                                            Ver más vuelos de salida <i class="fas fa-angle-down"></i>
+                                                        </button>
+                                                    </p>
+                                                    <div class="collapse mb-3" [id]="'collapseMasVuelosSalida'+i">
+                                                        <div *ngFor="let vuelo of item?.tramos[0]?.vuelos; let e = index"
+                                                            class="row ms-0 mt-1">
+                                                            <div class="d-flex" *ngIf="e > 0">
+                                                                <div class="col-lg-4 col-md-12 col-sm-12 my-auto ">
+                                                                    <div
+                                                                        class="form-check d-flex align-items-center infoVuelo">
+                                                                        <input class="form-check-input me-3"
+                                                                            type="radio" name="selecVuelo"
+                                                                            id="flexRadioDefault1">
+                                                                        <img style="width: 60px"
+                                                                            [src]="'https://tms-img.s3.amazonaws.com/icons/airlines/' + vuelo?.iata_aerolinea + '.png'"
+                                                                            alt="">
+                                                                        <h6 class="text-primary my-auto fw-bold">
+                                                                            {{vuelo.aerolinea}}
+                                                                            <br><small class="text-black-50"
+                                                                                style="font-size: 12px">Vuelo:
+                                                                                {{vuelo.infovuelo[0].vuelo}}</small>
+                                                                        </h6>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="col-lg-5 col-md-12 col-sm-12 d-flex my-auto justify-content-center infoVuelo">
+                                                                    <div>
+                                                                        <h6 class="text-secondary">{{
+                                                                            formatTime(vuelo?.infovuelo[0].Horasalida)
+                                                                            }}</h6>
+                                                                    </div>
+                                                                    <div class=" mx-4">
+                                                                        <span
+                                                                            *ngIf="item?.tramos[0].vuelos[0].infovuelo.length == 1"
+                                                                            class="mb-2 d-block text-decoration-underline">DIRECTO</span>
+
+                                                                        <button class="btn text-primary" type="button"
+                                                                            *ngIf="item?.tramos[0].vuelos[0].infovuelo.length > 1"
+                                                                            data-bs-toggle="collapse"
+                                                                            [attr.data-bs-target]="'#collapse1Escala0RedondoMas'+i"
+                                                                            aria-expanded="false"
+                                                                            aria-controls="collapse1Escala0RedondoMas">1
+                                                                            Escala
+                                                                        </button>
+                                                                    </div>
+                                                                    <div>
+                                                                        <h6 class="text-secondary">{{
+                                                                            formatTime(vuelo?.infovuelo[0].Horallegada)
+                                                                            }}</h6>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="col-md-12 col-lg-3 col-sm-12 my-auto text-center text-secondary">
+                                                                    <h5><i class="far fa-clock"></i> {{
+                                                                        formatDuration(vuelo?.duracionVuelo) }}
+                                                                    </h5>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="collapse" [id]="'collapse1Escala0RedondoMas'+i">
+                                                            <div *ngFor="let escala of item?.tramos[0].vuelos[0].infovuelo"
+                                                                class="row ms-0 mt-1">
+                                                                <div class="col-lg-4 col-md-12 col-sm-12 my-auto ">
+                                                                    <div
+                                                                        class="form-check d-flex align-items-center infoVuelo">
+
+                                                                        <img style="width: 60px"
+                                                                            [src]="'https://tms-img.s3.amazonaws.com/icons/airlines/' + escala.operating_carrier + '.png'"
+                                                                            alt="">
+                                                                        <h6 class="text-primary my-auto fw-bold">
+                                                                            {{escala.aerolinea}} <br><small
+                                                                                class="text-black-50"
+                                                                                style="font-size: 12px">Vuelo:
+                                                                                {{escala.vuelo}}</small>
+                                                                        </h6>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="col-lg-5 col-md-12 col-sm-12 d-flex my-auto justify-content-center infoVuelo">
+                                                                    <div>
+                                                                        <h6 class="text-secondary">{{
+                                                                            formatTime(escala.Horasalida)
+                                                                            }}</h6>
+                                                                    </div>
+                                                                    <div class=" mx-4">
+                                                                        <a *ngIf="item?.tramos[0].vuelos[0].infovuelo.length > 1"
+                                                                            class="mb-2 d-block text-decoration-underline"
+                                                                            data-toggle="collapse">1
+                                                                            Escala </a>
+                                                                    </div>
+                                                                    <div>
+                                                                        <h6 class="text-secondary">{{
+                                                                            formatTime(escala.Horallegada)
+                                                                            }}</h6>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="col-md-12 col-lg-3 col-sm-12 my-auto text-center text-secondary">
+                                                                    <h6><i class="far fa-clock"></i>{{
+                                                                        escala.duracionVuelo}}
+                                                                    </h6>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="radioTipoVuelo == 'roundtrip'">
+                                                <div class="row ms-0 border-top">
+                                                    <div class="bg-primary text-white rounded-2 p-1 col-sm-3 col-md-4 col-lg-3 text-center"
+                                                        style="height: fit-content; line-height: 1.2;">
+
+                                                        <span><i class="fas fa-plane-arrival"></i> REGRESO</span>
+                                                    </div>
+                                                    <div
+                                                        class="col-lg-6 col-md-5 col-sm-12 pt-2 d-flex justify-content-center">
+                                                        <div>
+                                                            <h6 class="text-primary m-0 fw-bold">
+                                                                {{item?.tramos[1].nombreDestino}}</h6>
+
+                                                        </div>
+                                                        <div class="my-auto mx-4">
+                                                            <small class="text-primary"> {{item?.tramos[1].date | date:
+                                                                'dd/MM/yyyy' }}</small>
+                                                        </div>
+                                                        <div>
+                                                            <h6 class="text-primary m-0 fw-bold">
+                                                                {{item?.tramos[1].nombreOrigen}}</h6>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 justify-content-end pt-2 d-flex align-items-center"
+                                                        style="height: fit-content">
+                                                        <div class="me-2"><small>Operado por:</small> <br> <small
+                                                                class="d-block text-end">{{item?.tramos[1].vuelos[0].infovuelo[0].operating_carrier_aerolinea}}</small>
+                                                        </div>
+                                                        <div><img style="width: 40px"
+                                                                [src]="'https://tms-img.s3.amazonaws.com/icons/airlines/' + item?.tramos[1].vuelos[0].infovuelo[0].operating_carrier + '.png'"
+                                                                [alt]="'https://tms-img.s3.amazonaws.com/icons/airlines/' + item?.tramos[1].vuelos[0].infovuelo[0].operating_carrier + '.png'">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row ms-0 mt-1">
+                                                    <div class="col-lg-4 col-md-12 col-sm-12 my-auto ">
+                                                        <div class="form-check d-flex align-items-center infoVuelo">
+                                                            <input class="form-check-input me-3" type="radio"
+                                                                name="selecVuelo" id="flexRadioDefault1">
+                                                            <img style="width: 60px"
+                                                                [src]="'https://tms-img.s3.amazonaws.com/icons/airlines/' + item?.tramos[1].vuelos[0]?.iata_aerolinea + '.png'"
+                                                                alt="">
+                                                            <h6 class="text-primary my-auto fw-bold">
+                                                                {{item?.tramos[1].vuelos[0]?.aerolinea}} <br><small
+                                                                    class="text-black-50" style="font-size: 12px">Vuelo:
+                                                                    {{item?.tramos[1].vuelos[0]?.infovuelo[0].vuelo}}</small>
+                                                            </h6>
+
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-lg-5 col-md-12 col-sm-12 d-flex my-auto justify-content-center infoVuelo">
+                                                        <div>
+                                                            <h6 class="text-secondary">{{
+                                                                formatTime(item?.tramos[1].vuelos[0]?.infovuelo[0].Horasalida)
+                                                                }}</h6>
+                                                        </div>
+                                                        <div class=" mx-4">
+                                                            <span
+                                                                class="mb-2 d-block text-decoration-underline">DIRECTO</span>
+                                                        </div>
+                                                        <div>
+                                                            <h6 class="text-secondary">{{
+                                                                formatTime(item?.tramos[1].vuelos[0]?.infovuelo[0].Horallegada)
+                                                                }}</h6>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-md-12 col-lg-3 col-sm-12 my-auto text-center text-secondary">
+                                                        <h5><i class="far fa-clock"></i>{{
+                                                            formatDuration(item?.tramos[1].vuelos[0]?.duracionVuelo) }}
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                                <div class="row ms-0 mt-3 ">
+                                                    <p class="text-center">
+                                                        <button class="btn text-primary" type="button"
+                                                            [id]="'chow_' + i" data-bs-toggle="collapse"
+                                                            [attr.data-bs-target]="'#collapseMasVuelosRegreso'+i"
+                                                            aria-expanded="false"
+                                                            [aria-controls]="'collapseMasVuelosRegreso'+i">
+                                                            Ver más vuelos de regreso <i class="fas fa-angle-down"></i>
+                                                        </button>
+                                                    </p>
+                                                    <div class="collapse mb-3" [id]="'collapseMasVuelosRegreso'+i">
+                                                        <div *ngFor="let vuelo of item?.tramos[1]?.vuelos; let e = index"
+                                                            class="row ms-0 mt-1">
+                                                            <div class="d-flex" *ngIf="e > 0">
+                                                                <div class="col-lg-4 col-md-12 col-sm-12 my-auto ">
+                                                                    <div
+                                                                        class="form-check d-flex align-items-center infoVuelo">
+                                                                        <input class="form-check-input me-3"
+                                                                            type="radio" name="selecVuelo"
+                                                                            id="flexRadioDefault1">
+                                                                        <img style="width: 60px"
+                                                                            [src]="'https://tms-img.s3.amazonaws.com/icons/airlines/' + vuelo?.iata_aerolinea + '.png'"
+                                                                            alt="">
+                                                                        <h6 class="text-primary my-auto fw-bold">
+                                                                            {{vuelo.aerolinea}}
+                                                                            <br><small class="text-black-50"
+                                                                                style="font-size: 12px">Vuelo:
+                                                                                {{vuelo.infovuelo[0].vuelo}}</small>
+                                                                        </h6>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="col-lg-5 col-md-12 col-sm-12 d-flex my-auto justify-content-center infoVuelo">
+                                                                    <div>
+                                                                        <h6 class="text-secondary">{{
+                                                                            formatTime(vuelo?.infovuelo[0].Horasalida)
+                                                                            }}</h6>
+                                                                    </div>
+                                                                    <div class=" mx-4">
+                                                                        <span
+                                                                            class="mb-2 d-block text-decoration-underline">DIRECTO</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <h6 class="text-secondary">{{
+                                                                            formatTime(vuelo?.infovuelo[0].Horallegada)
+                                                                            }}</h6>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="col-md-12 col-lg-3 col-sm-12 my-auto text-center text-secondary">
+                                                                    <h5><i class="far fa-clock"></i> {{
+                                                                        formatDuration(vuelo?.duracionVuelo) }}
+                                                                    </h5>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="radioTipoVuelo == 'multitrip'">
+                                                <div *ngFor="let tramos of item?.tramos; let o = index">
+                                                    <div class="row ms-0 border-top">
+                                                        <div class="bg-primary text-white rounded-2 p-1 col-sm-3 col-md-4 col-lg-3 text-center"
+                                                            style="height: fit-content; line-height: 1.2;">
+
+                                                            <span><i class="fas fa-plane-arrival"></i> Tramo {{ o + 1
+                                                                }}</span>
+                                                        </div>
+                                                        <div
+                                                            class="col-lg-6 col-md-5 col-sm-12 pt-2 d-flex justify-content-center">
+                                                            <div>
+                                                                <h6 class="text-primary m-0 fw-bold">
+                                                                    {{tramos.nombreDestino}}</h6>
+
+                                                            </div>
+                                                            <div class="my-auto mx-4">
+                                                                <small class="text-primary"> {{tramos.date | date:
+                                                                    'dd/MM/yyyy' }}</small>
+                                                            </div>
+                                                            <div>
+                                                                <h6 class="text-primary m-0 fw-bold">
+                                                                    {{tramos.nombreOrigen}}</h6>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 justify-content-end pt-2 d-flex align-items-center"
+                                                            style="height: fit-content">
+                                                            <div class="me-2"><small>Operado por:</small> <br> <small
+                                                                    class="d-block text-end">{{
+                                                                    tramos.vuelos[0].infovuelo[0].operating_carrier_aerolinea}}</small>
+                                                            </div>
+                                                            <div><img style="width: 40px"
+                                                                    [src]="'https://tms-img.s3.amazonaws.com/icons/airlines/' + tramos.vuelos[0].infovuelo[0].operating_carrier + '.png'"
+                                                                    [alt]="'https://tms-img.s3.amazonaws.com/icons/airlines/' + tramos.vuelos[0].infovuelo[0].operating_carrier + '.png'">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row ms-0 mt-1">
+                                                        <div class="col-lg-4 col-md-12 col-sm-12 my-auto ">
+                                                            <div class="form-check d-flex align-items-center infoVuelo">
+                                                                <input class="form-check-input me-3" type="radio"
+                                                                    name="selecVuelo" id="flexRadioDefault1">
+                                                                <img style="width: 60px"
+                                                                    [src]="'https://tms-img.s3.amazonaws.com/icons/airlines/' + tramos.vuelos[0]?.iata_aerolinea + '.png'"
+                                                                    alt="">
+                                                                <h6 class="text-primary my-auto fw-bold">
+                                                                    {{tramos.vuelos[0]?.aerolinea}} <br><small
+                                                                        class="text-black-50"
+                                                                        style="font-size: 12px">Vuelo:
+                                                                        {{tramos.vuelos[0]?.infovuelo[0].vuelo}}</small>
+                                                                </h6>
+
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="col-lg-5 col-md-12 col-sm-12 d-flex my-auto justify-content-center infoVuelo">
+                                                            <div>
+                                                                <h6 class="text-secondary">{{
+                                                                    formatTime(tramos.vuelos[0]?.infovuelo[0].Horasalida)
+                                                                    }}</h6>
+                                                            </div>
+                                                            <div class=" mx-4">
+                                                                <span
+                                                                    class="mb-2 d-block text-decoration-underline">DIRECTO</span>
+                                                            </div>
+                                                            <div>
+                                                                <h6 class="text-secondary">{{
+                                                                    formatTime(tramos.vuelos[0]?.infovuelo[0].Horallegada)
+                                                                    }}</h6>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="col-md-12 col-lg-3 col-sm-12 my-auto text-center text-secondary">
+                                                            <h6><i class="far fa-clock"></i>{{
+                                                                formatDuration(tramos.vuelos[0]?.duracionVuelo) }}
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row ms-0 mt-3 ">
+                                                        <p class="text-center">
+                                                            <button class="btn text-primary" type="button"
+                                                                data-bs-toggle="collapse"
+                                                                [attr.data-bs-target]="'#collapseMasVuelosMulti'+o + i"
+                                                                aria-expanded="false"
+                                                                aria-controls="collapseMasVuelosMulti">
+                                                                Ver más vuelos de regreso <i
+                                                                    class="fas fa-angle-down"></i>
+                                                            </button>
+                                                        </p>
+                                                        <div *ngFor="let vuelo of tramos.vuelos; let e = index"
+                                                            class="collapse mb-3" [id]="'collapseMasVuelosMulti'+o + i">
+                                                            <div class="row ms-0 mt-1">
+                                                                <div class="d-flex">
+                                                                    <div class="col-lg-4 col-md-12 col-sm-12 my-auto ">
+                                                                        <div
+                                                                            class="form-check d-flex align-items-center infoVuelo">
+                                                                            <input class="form-check-input me-3"
+                                                                                type="radio" name="selecVuelo"
+                                                                                id="flexRadioDefault1">
+                                                                            <img style="width: 60px"
+                                                                                [src]="'https://tms-img.s3.amazonaws.com/icons/airlines/' + vuelo?.iata_aerolinea + '.png'"
+                                                                                alt="">
+                                                                            <h6 class="text-primary my-auto fw-bold">
+                                                                                {{vuelo.aerolinea}}
+                                                                                <br><small class="text-black-50"
+                                                                                    style="font-size: 12px">Vuelo:
+                                                                                    {{vuelo.infovuelo[0].vuelo}}</small>
+                                                                            </h6>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="col-lg-5 col-md-12 col-sm-12 d-flex my-auto justify-content-center infoVuelo">
+                                                                        <div>
+                                                                            <h6 class="text-secondary">{{
+                                                                                formatTime(vuelo?.infovuelo[0].Horasalida)
+                                                                                }}</h6>
+                                                                        </div>
+                                                                        <div class=" mx-4">
+                                                                            <span
+                                                                                class="mb-2 d-block text-decoration-underline">DIRECTO</span>
+                                                                        </div>
+                                                                        <div>
+                                                                            <h6 class="text-secondary">{{
+                                                                                formatTime(vuelo?.infovuelo[0].Horallegada)
+                                                                                }}</h6>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="col-md-12 col-lg-3 col-sm-12 my-auto text-center text-secondary">
+                                                                        <h6><i class="far fa-clock"></i> {{
+                                                                            formatDuration(vuelo?.duracionVuelo) }}
+                                                                        </h6>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-3 my-2 me-0 border-start">
+                                            <div class="justify-content-md-end justify-content-center d-flex">
+                                                <h4 class="text-secondary">
+                                                    <b>{{item.tarifa?.detalle_Vuelo?.adultos?.costo | currency}}</b>
+                                                </h4> <small class="text-primary">MXN</small>
+                                            </div>
+                                            <div
+                                                class="d-flex justify-content-md-between justify-content-around font13">
+                                                <label *ngIf="item.tarifa?.detalle_Vuelo?.adultos.cantidad == 1">1
+                                                    adulto</label>
+                                                <label
+                                                    *ngIf="item.tarifa?.detalle_Vuelo?.adultos.cantidad > 1">{{item.tarifa?.detalle_Vuelo?.adultos.cantidad}}
+                                                    adultos</label>
+                                                <label>{{item.tarifa?.detalle_Vuelo?.adultos.costo *
+                                                    item.tarifa?.detalle_Vuelo?.adultos.cantidad | currency}}
+                                                    <small>MXN</small></label>
+                                            </div>
+                                            <div *ngIf="item.tarifa?.detalle_Vuelo?.menores.cantidad > 0"
+                                                class="d-flex justify-content-md-between justify-content-around  font13">
+                                                <label *ngIf="item.tarifa?.detalle_Vuelo?.menores.cantidad == 1">1
+                                                    menor</label>
+                                                <label
+                                                    *ngIf="item.tarifa?.detalle_Vuelo?.menores.cantidad > 1">{{item.tarifa?.detalle_Vuelo?.menores.cantidad}}
+                                                    menores</label>
+                                                <label for="">{{item.tarifa?.detalle_Vuelo?.menores.costo *
+                                                    item.tarifa?.detalle_Vuelo?.menores.cantidad | currency}}
+                                                    <small>MXN</small></label>
+                                            </div>
+                                            <div *ngIf="item.tarifa?.detalle_Vuelo?.infantes.cantidad > 0"
+                                                class="d-flex justify-content-md-between justify-content-around  font13">
+                                                <label *ngIf="item.tarifa?.detalle_Vuelo?.infantes.cantidad == 1">1
+                                                    infante</label>
+                                                <label
+                                                    *ngIf="item.tarifa?.detalle_Vuelo?.infantes.cantidad > 1">{{item.tarifa?.detalle_Vuelo?.infantes.cantidad}}
+                                                    infantes</label>
+                                                <label for="">{{item.tarifa?.detalle_Vuelo?.infantes.costo
+                                                    *item.tarifa?.detalle_Vuelo?.infantes.cantidad | currency}}
+                                                    <small>MXN</small></label>
+                                            </div>
+                                            <div
+                                                class="d-flex justify-content-md-between justify-content-around  font13">
+                                                <label for="">Impuestos</label>
+                                                <label for="">{{item.tarifa?.impuestos?.impuesto_total | currency}}
+                                                    <small>MXN</small></label>
+                                            </div>
+                                            <div
+                                                class="d-flex justify-content-md-between justify-content-around  font13">
+                                                <label for="">Cargos</label>
+                                                <label for="">{{item.tarifa?.cargo | currency}}
+                                                    <small>MXN</small></label>
+                                            </div>
+                                            <div
+                                                class="d-flex justify-content-md-between justify-content-around  font13">
+                                                <label class="fw-bold">Precio final</label>
+                                                <label class="fw-bold">{{item.tarifa?.costoTotal | currency}}
+                                                    <small>MXN</small></label>
+                                            </div>
+                                            <div class="text-md-center text-center my-2">
+                                                <button
+                                                    class="btn btn-outline-primary rounded-pill mt-2"><b>Seleccionar</b></button>
+                                                <hr>
+                                                <button [tooltip]="khe" style="cursor: default"
+                                                    class="btn text-warning"><b><u>Promoción: Texto</u></b></button>
+                                                <hr>
+                                                <span class="text-secondary text-start" style="font-size: 14px;"><i
+                                                        class="fas fa-suitcase"></i>
+                                                    {{item.familia_tarifaria.nombreFamilia}} </span> <br>
+                                                <span class="d-block text-start my-1 mx-auto"
+                                                    style="font-size: 12px; line-height: 14px; max-width: 400px;"
+                                                    [innerHtml]="item.familia_tarifaria.detalle"></span>
+                                                <button *ngIf="flagTarifas != i"
+                                                    class="btn btn-sm btn-outline-secondary rounded-pill my-2"
+                                                    (click)="openFamiliaTar(item, i)"  data-toggle="collapse"
+                                                    data-target="#tarifas" role="button" aria-expanded="false"
+                                                    aria-controls="tarifas"><b>Cambiar
+                                                        tarifa</b></button>
+                                                <button *ngIf="flagTarifas == i"
+                                                    class="btn btn-sm btn-outline-secondary rounded-pill my-2"
+                                                    (click)="closeFamiliaTar()" data-toggle="collapse"
+                                                    data-target="#tarifas" role="button" aria-expanded="false"
+                                                    aria-controls="tarifas"><i class="fas fa-chevron-up"></i></button>
+                                            </div>
+                                        </div>
+                                        <hr *ngIf="flag" style="width: 99%; margin-left: 16px;">
+                                        <div class="mb-3" id="tarifas" *ngIf="flagTarifas == i">
+                                            <owl-carousel-o [options]="customOptionsTarifas">
+                                                <ng-template *ngFor="let item of familiasTarifarias" carouselSlide>
+                                                    <div class="card ms-2">
+                                                        <div class="card-header text-center bg-primary text-white">
+                                                            <h5 class="">{{item.nombreFamilia}}</h5>
+                                                        </div>
+
+                                                        <div class="card-body">
+                                                            <!-- <h5 class="card-title">Special title treatment</h5> -->
+                                                            <p class="card-text" [innerHTML]="item.detalle"></p>
+
+                                                            <div class="text-center">
+                                                                <h4>Total por persona:
+                                                                    {{item.tarifa.costoFamiliaTarifaria | currency}}
+                                                                </h4>
+                                                                <small class="d-block mb-2">Impuestos incluídos</small>
+                                                                <button type="button"
+                                                                    class="btn btn-outline-success rounded-pill">
+                                                                    Seleccionar
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+
+                                            </owl-carousel-o>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

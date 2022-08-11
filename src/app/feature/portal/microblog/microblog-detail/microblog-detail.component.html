@@ -1,0 +1,28 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-11 col-lg-11 offset-lg-1 col-xxl-9 offset-xxl-2 offset-md-1">
+            <div>
+                <button class="btn btn-outline-primary border-0" (click)="regresar()"><i class="fas fa-angle-left"></i>
+                    Regresar</button>
+            </div>
+            <div [ngStyle]="{background: 'url('+details.url_img+') no-repeat 0 0 / cover'}" class="row align-items-end mb-5 mt-3"
+                style="height: 600px;">
+            </div>
+            <div class="row bg-white rounded mb-5 py-3">
+                <div class="d-flex justify-content-between">
+                    <h3 class="text-primary">{{details.titulo}}</h3>
+                    <span class="text-secondary">{{details.fecha_publicacion}}</span>
+                </div>
+                <span [innerHTML]="details.descripcion"></span>
+            </div>
+            <div class="row bg-white rounded mb-5 py-3">
+                <div class="d-flex justify-content-between">
+                    <div><a *ngIf="details.prev" (click)="siguienteAnteriorBlog(details.prev.idBlog)"><i class="fas fa-chevron-left"></i> Publicación anterior</a></div>
+                    <div><a *ngIf="details.next" (click)="siguienteAnteriorBlog(details.next.idBlog)">Publicación Siguiente <i class="fas fa-chevron-right"></i></a></div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
